@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-12 col-md-6">
+    <p>Всего заданий: {{scoreData.givenProblems}} из {{scoreData.totalProblems}}</p>
+    <p><ngb-progressbar
+      type="dark"
+      textType="white"
+      [value]="setPercentGivenProblems().toFixed(2)"
+      [showValue]="true"
+    ></ngb-progressbar></p>
+    <p>Решённых заданий: {{scoreData.solvedProblems}} из {{scoreData.totalProblems}}</p>
+    <p><ngb-progressbar
+      [type]="setColorRightSolvedFromTotalProgress()"
+      textType="white"
+      [value]="setPercentSolvedFromTotalProblems().toFixed(2)"
+      [showValue]="true"
+    ></ngb-progressbar></p>
+    <p>Успешность: <span [ngStyle]="{
+                  color: setColorPercentRightAnswer()
+                  }">{{setPercentSolvedProblems().toFixed(2)}}%</span></p>
+    <p><ngb-progressbar
+      textType="white"
+      [type]="setColorSuccessProgress()"
+      [value]="setPercentSolvedProblems().toFixed(2)"
+      [showValue]="true"
+    ></ngb-progressbar></p>
+  </div>
+  <div class="col-md-3"></div>
+</div>

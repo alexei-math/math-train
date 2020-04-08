@@ -1,0 +1,37 @@
+<app-viewtask [viewData]="viewData"></app-viewtask>
+
+<div class="row">
+  <div class="col-12" >
+    <table class="center">
+      <tr>
+        <td class="td-center">
+          <input
+            type="text"
+            class="small-input"
+            placeholder="чис"
+            (keyup.enter)="nomEnter()"
+            [(ngModel)]="fracA.nominA" #nominatorInput
+          ></td>
+        <td rowspan="3"><button class="valign mybtn" (click)="checkAnswer()">Ответить</button></td></tr>
+      <tr>
+        <td><div class="black-line">&nbsp;</div></td>
+      </tr>
+      <tr>
+        <td class="td-center">
+          <input
+            type="text"
+            class="small-input"
+            placeholder="зн"
+            (keyup.enter)="checkAnswer()"
+            [(ngModel)]="fracA.denomA"  #denominatorInput></td>
+      </tr>
+    </table>
+    <p [ngStyle]="{
+            textAlign: 'center',
+            marginTop: '0.5rem',
+            color: isAnswerRight ? 'green' : 'red'
+          }"><strong>{{answerRecense}}</strong></p>
+  </div>
+</div>
+
+<app-showprogress [scoreData]="scoreGQData"></app-showprogress>

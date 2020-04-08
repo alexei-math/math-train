@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col">
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Таблица умножений</a>
+        <ng-template ngbNavContent>
+          <app-multtab></app-multtab>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Целые числа</a>
+        <ng-template ngbNavContent>
+          <app-groupz></app-groupz>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Дроби</a>
+        <ng-template ngbNavContent>
+          <app-groupq></app-groupq>
+        </ng-template>
+      </ng-container>
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Квадратные уравнения</a>
+        <ng-template ngbNavContent>
+          <app-squareeq></app-squareeq>
+        </ng-template>
+      </ng-container>
+    </nav>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</div>

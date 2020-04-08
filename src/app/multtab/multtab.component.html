@@ -1,0 +1,23 @@
+<app-viewtask [viewData]="viewMultiData"></app-viewtask>
+
+<div class="row">
+  <div class="col-12" [ngStyle]="{
+            textAlign: 'center',
+            display: (viewMultiData.inputDisabled) ? 'none' : 'block'
+        }">
+    <input type="text" size="16" [(ngModel)]="ans" (keyup.enter)="checkAns()" placeholder="Ответ" #inputAns>
+    <br />
+    <small class="small-hint">Введите ответ и нажмите Enter</small>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12" [ngStyle]="{
+        textAlign: 'center',
+        color: (ansHints.res === 'Правильно!') ? 'green' : 'red'
+    }">
+    <p>{{ansHints.res}}</p>
+    <p>{{ansHints.complete}}</p>
+  </div>
+</div>
+
+<app-showprogress [scoreData]="scoreMultiData"></app-showprogress>

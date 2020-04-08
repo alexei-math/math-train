@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-12 view-header">
+    <h6>{{viewData.header}}</h6>
+    <small>{{viewData.description}}</small>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12" [ngStyle]="{
+      textAlign: 'center',
+      fontSize: '2rem',
+      color: (viewData.inputDisabled) ? '#999' : '#000'
+  }">
+    <ng-katex [equation]="viewData.problemText" [options]="options"></ng-katex>
+  </div>
+</div>

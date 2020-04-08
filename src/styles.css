@@ -1,3 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~katex/dist/katex.css';
+
+.view-header {
+  text-align: center;
+}
+
+.small-hint {
+  font-size: 0.7rem;
+  color: #999999;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+.td-center {
+  text-align: center;
+}
+
+button.valign {
+  margin-left: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.small-input {
+  width: 2.2rem;
+  margin: 0 auto;
+}
+
+.mybtn {
+  display: inline-block;
+  background: royalblue;
+  color: #ffffff;
+  padding: 0.4rem 1.3rem;
+  margin-left: 1rem;
+  font-size: 0.75rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: opacity;
+  outline: none;
+  /*height: 80%;*/
+}
+
+.mybtn:hover {
+  opacity: 0.8;
+}
+
+.black-line {
+  background-color: #000000;
+  height: 2px;
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  width: 2.9rem
+}

@@ -1,0 +1,21 @@
+<app-viewtask [viewData]="viewGroupZData"></app-viewtask>
+
+<div class="row">
+  <div class="col-12" [ngStyle]="{
+          textAlign: 'center'
+        }">
+    <input
+      type="text"
+      (keyup.enter)="checkAnswer($event)"
+      [(ngModel)]="valueAnswerText"
+      [disabled]="viewGroupZData.inputDisabled"
+      placeholder="Ответ" #answerText><br />
+    <span style="font-size: 0.8rem; color: #777777"> Введите ответ и нажите Enter</span>
+    <p [ngStyle]="{
+            color: isAnswerRight ? 'green' : 'red'
+          }"><strong>{{answerRecense}}</strong></p>
+
+  </div>
+</div>
+
+<app-showprogress [scoreData]="scoreGroupZData"></app-showprogress>

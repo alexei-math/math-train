@@ -1,0 +1,176 @@
+<app-viewtask [viewData]="viewSqEqData"></app-viewtask>
+
+<div class="row">
+  <div class="col" [ngStyle]="{
+          textAlign: 'center',
+          display: (viewSqEqData.inputDisabled) ? 'none' : 'block'
+        }">
+    x<sub>1</sub> =
+    <input
+      type="text"
+      size="4"
+      [(ngModel)]="inputsAns.X1"
+      placeholder="x1"
+      #inpXTxt
+    >
+    x<sub>2</sub> =
+    <input
+      type="text"
+      size="4"
+      [(ngModel)]="inputsAns.X2"
+      placeholder="x2"
+    >
+    <button class="mybtn" (click)="checkAnswer()" [ngStyle]="{
+          marginTop: '0.3rem',
+          display: (answerHints.res !== 'Неправильно!' || answerHints.m5 === 'Правильно!') ? 'inline-block' : 'none'
+        }">Ответить</button>
+    <button class="mybtn" (click)="showHint()" [ngStyle]="{
+          marginTop: '0.3rem',
+          display: (answerHints.res === 'Неправильно!' && answerHints.m5 !== 'Правильно!') ? 'inline-block' : 'none'
+        }">Решить с подсказками</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <p [ngStyle]="{
+        textAlign: 'center',
+        marginTop: '0.5rem',
+        color: (answerHints.res === 'Правильно!') ? 'green' : 'red'
+    }">{{answerHints.res}}<br />{{answerHints.complete}}</p>
+  </div>
+</div>
+<div class="row" [ngStyle]="{
+        textAlign: 'center',
+        display: levelHint(1) ? 'block' : 'none'
+    }">
+  <div class="col">
+   <p>Определите коэффициенты квадратного уравнения:</p>
+    a = <input
+      type="text"
+      size="4"
+      [(ngModel)]="inputsAns.A"
+      placeholder="a"
+    >
+    b =
+    <input
+      type="text"
+      size="4"
+      [(ngModel)]="inputsAns.B"
+      placeholder="b"
+    >
+    c =
+    <input
+      type="text"
+      size="4"
+      [(ngModel)]="inputsAns.C"
+      placeholder="c"
+    >
+    <button class="mybtn" (click)="checkABC()">Проверить</button>
+    <p [ngStyle]="{
+            textAlign: 'center',
+            color: (answerHints.m1 === 'Правильно!') ? 'green' : 'red'
+          }">{{answerHints.m1}}</p>
+  </div>
+</div>
+<div class="row" [ngStyle]="{
+        textAlign: 'center',
+        display: levelHint(2) ? 'block' : 'none'
+    }">
+  <div class="col">
+    <p>Посчитайте дискриминант квадратного уравнения</p>
+    <div mathjax>
+      $$
+      D = b^2 - 4 \cdot a \cdot c
+      $$
+    </div>
+    <input
+      type="text"
+      size="4"
+      [(ngModel)]="inputsAns.Disc"
+      placeholder="D"
+    >
+    <button class="mybtn" (click)="checkDisc()">Проверить</button>
+    <p [ngStyle]="{
+            textAlign: 'center',
+            color: (answerHints.m2 === 'Правильно!') ? 'green' : 'red'
+          }">{{answerHints.m2}}</p>
+  </div>
+</div>
+<div class="row" [ngStyle]="{
+        textAlign: 'center',
+        display: levelHint(3) ? 'block' : 'none'
+    }">
+  <div class="col">
+    <p>Найдите корень из дискриминанта</p>
+    <div mathjax>
+      \( \sqrt D \) =
+        <input
+          type="text"
+          size="4"
+          [(ngModel)]="inputsAns.SqDisc"
+          placeholder="Корень"
+        >
+        <button class="mybtn" (click)="checkSqDisc()">Проверить</button>
+    </div>
+    <p [ngStyle]="{
+            textAlign: 'center',
+            color: (answerHints.m3 === 'Правильно!') ? 'green' : 'red'
+          }">{{answerHints.m3}}</p>
+  </div>
+</div>
+<div class="row" [ngStyle]="{
+        textAlign: 'center',
+        display: levelHint(4) ? 'block' : 'none'
+    }">
+    <div class="col">
+      <p>Посчитайте первый корень</p>
+       <div [mathjax]>
+          \( x = \frac{{'{'}}- b - \sqrt D{{'}'}}{{'{'}}2 a{{'}'}} \) =
+          <input
+            type="text"
+            size="4"
+            [(ngModel)]="inputsAns.X1new"
+            placeholder="x1"
+          >
+          <button class="mybtn" (click)="checkX1new()">Проверить</button>
+       </div>
+          <p [ngStyle]="{
+            textAlign: 'center',
+            color: (answerHints.m4 === 'Правильно!') ? 'green' : 'red'
+            }">{{answerHints.m4}}</p>
+  </div>
+</div>
+<div class="row" [ngStyle]="{
+        textAlign: 'center',
+        display: levelHint(5) ? 'block' : 'none'
+    }">
+  <div class="col">
+    <p>Посчитайте второй корень</p>
+    <div [mathjax]>
+      \( x = \frac{{'{'}}- b + \sqrt D{{'}'}}{{'{'}}2 a{{'}'}} \) =
+      <input
+        type="text"
+        size="4"
+        [(ngModel)]="inputsAns.X2new"
+        placeholder="x2"
+      >
+      <button class="mybtn" (click)="checkX2new()">Проверить</button>
+    </div>
+    <p [ngStyle]="{
+            textAlign: 'center',
+            color: (answerHints.m5 === 'Правильно!') ? 'green' : 'red'
+            }">{{answerHints.m5}}</p>
+  </div>
+</div>
+<div class="row" [ngStyle]="{
+        textAlign: 'center',
+        display: levelHint(6) ? 'block' : 'none'
+    }">
+  <div class="col">
+    <p style="color: 'green'">Все корни найдены верно! Введите их в поля x<sub>1</sub> и x<sub>2</sub> под заданием
+      в верху страницы, нажмите кнопку "Ответить"
+      и переходите к следующему уравнению</p>
+  </div>
+</div>
+
+<app-showprogress [scoreData]="scoreSqEqData"></app-showprogress>
