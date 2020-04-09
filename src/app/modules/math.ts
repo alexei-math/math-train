@@ -78,9 +78,13 @@ export class NumQ {
   }
 
   reduce(): void {
-    const r = GCD (Math.abs(this.nom), this.denom);
-    this.nom = this.nom / r;
-    this.denom = this.denom / r;
+    if (this.nom === 0) {
+      this.denom = 1;
+    } else {
+      const r = GCD (Math.abs(this.nom), Math.abs(this.denom));
+      this.nom = this.nom / r;
+      this.denom = this.denom / r;
+    }
   }
 
   add(q: NumQ): NumQ {
