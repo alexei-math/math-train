@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ViewData, ScoreData} from '../modules/modules';
 import { getRandom } from '../modules/math';
 
@@ -7,9 +7,9 @@ import { getRandom } from '../modules/math';
   templateUrl: './multtab.component.html',
   styleUrls: ['./multtab.component.css']
 })
-export class MulttabComponent implements OnInit {
+export class MulttabComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('inputAns', {static: true}) inpAns: ElementRef;
+  @ViewChild('inputAns', {static: false}) inpAns: ElementRef;
   viewMultiData: ViewData;
   scoreMultiData: ScoreData;
 
@@ -35,6 +35,9 @@ export class MulttabComponent implements OnInit {
     };
 
     this.setTask();
+  }
+
+  ngAfterViewInit(): void {
     this.inpAns.nativeElement.focus();
   }
 

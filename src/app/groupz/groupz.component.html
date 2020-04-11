@@ -5,12 +5,12 @@
           textAlign: 'center'
         }">
     <input
+      *ngIf="!viewGroupZData.inputDisabled"
       type="text"
       (keyup.enter)="checkAnswer($event)"
       [(ngModel)]="valueAnswerText"
-      [disabled]="viewGroupZData.inputDisabled"
       placeholder="Ответ" #answerText><br />
-    <span style="font-size: 0.8rem; color: #777777"> Введите ответ и нажите Enter</span>
+    <span style="font-size: 0.8rem; color: #777777" *ngIf="!viewGroupZData.inputDisabled"> Введите ответ и нажите Enter</span>
     <p [ngStyle]="{
             color: isAnswerRight ? 'green' : 'red'
           }"><strong>{{answerRecense}}</strong></p>

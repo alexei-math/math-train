@@ -1,10 +1,7 @@
 <app-viewtask [viewData]="viewMultiData"></app-viewtask>
 
 <div class="row">
-  <div class="col-12" [ngStyle]="{
-            textAlign: 'center',
-            display: (viewMultiData.inputDisabled) ? 'none' : 'block'
-        }">
+  <div class="col-12 div-center" *ngIf="!viewMultiData.inputDisabled">
     <input type="text" size="16" [(ngModel)]="ans" (keyup.enter)="checkAns()" placeholder="Ответ" #inputAns>
     <br />
     <small class="small-hint">Введите ответ и нажмите Enter</small>

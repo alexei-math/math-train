@@ -39,10 +39,7 @@
     }">{{answerHints.res}}<br />{{answerHints.complete}}</p>
   </div>
 </div>
-<div class="row" [ngStyle]="{
-        textAlign: 'center',
-        display: levelHint(1) ? 'block' : 'none'
-    }">
+<div class="row div-center" *ngIf="levelHint(1)">
   <div class="col">
    <p>Определите коэффициенты квадратного уравнения:</p>
     a = <input
@@ -72,10 +69,7 @@
           }">{{answerHints.m1}}</p>
   </div>
 </div>
-<div class="row" [ngStyle]="{
-        textAlign: 'center',
-        display: levelHint(2) ? 'block' : 'none'
-    }">
+<div class="row div-center" *ngIf="levelHint(2)">
   <div class="col">
     <p>Посчитайте дискриминант квадратного уравнения</p>
     <div mathjax>
@@ -96,10 +90,7 @@
           }">{{answerHints.m2}}</p>
   </div>
 </div>
-<div class="row" [ngStyle]="{
-        textAlign: 'center',
-        display: levelHint(3) ? 'block' : 'none'
-    }">
+<div class="row div-center" *ngIf="levelHint(3)">
   <div class="col">
     <p>Найдите корень из дискриминанта</p>
     <div mathjax>
@@ -118,10 +109,7 @@
           }">{{answerHints.m3}}</p>
   </div>
 </div>
-<div class="row" [ngStyle]="{
-        textAlign: 'center',
-        display: levelHint(4) ? 'block' : 'none'
-    }">
+<div class="row div-center" *ngIf="levelHint(4)">
     <div class="col">
       <p>Посчитайте первый корень</p>
        <div [mathjax]>
@@ -140,10 +128,7 @@
             }">{{answerHints.m4}}</p>
   </div>
 </div>
-<div class="row" [ngStyle]="{
-        textAlign: 'center',
-        display: levelHint(5) ? 'block' : 'none'
-    }">
+<div class="row div-center" *ngIf="levelHint(5)">
   <div class="col">
     <p>Посчитайте второй корень</p>
     <div [mathjax]>
@@ -162,10 +147,7 @@
             }">{{answerHints.m5}}</p>
   </div>
 </div>
-<div class="row" [ngStyle]="{
-        textAlign: 'center',
-        display: levelHint(6) ? 'block' : 'none'
-    }">
+<div class="row div-center" *ngIf="levelHint(6)">
   <div class="col">
     <p style="color: 'green'">Все корни найдены верно! Введите их в поля x<sub>1</sub> и x<sub>2</sub> под заданием
       в верху страницы, нажмите кнопку "Ответить"

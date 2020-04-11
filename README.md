@@ -4,11 +4,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Краткое описание
 
-В этом проекте я создаю различные тренажеры по математике, чтобы помось ученикам закрепить базовые вычислительные навыки.
+В этом проекте я создаю различные тренажеры по математике, пока для средней школы. В планах создание приложений, демонстрирующих различные факты из высшей математики.
 
-## Code scaffolding
+## Таблица умножения
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Самое первое, что должен выучить ученик по математике - это таблицу умножения. На странице этого тренажера предлагается в случайном порядке 50 заданий по этой теме.
 
 ## Build
 

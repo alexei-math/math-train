@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild,  AfterViewInit} from '@angular/core';
 import {ScoreData, ViewData} from '../modules/modules';
 import {getRandom, GCD, NumQ} from '../modules/math';
 
@@ -7,10 +7,10 @@ import {getRandom, GCD, NumQ} from '../modules/math';
   templateUrl: './groupq.component.html',
   styleUrls: ['./groupq.component.css']
 })
-export class GroupqComponent implements OnInit {
+export class GroupqComponent implements OnInit, AfterViewInit {
 
-   @ViewChild('nominatorInput', {static: true}) nomInp: ElementRef;
-   @ViewChild('denominatorInput', {static: true}) denomInp: ElementRef;
+   @ViewChild('nominatorInput', {static: false}) nomInp: ElementRef;
+   @ViewChild('denominatorInput', {static: false}) denomInp: ElementRef;
 
   viewData: ViewData;
   scoreGQData: ScoreData = {
@@ -60,6 +60,11 @@ export class GroupqComponent implements OnInit {
     this.levelQ = 1;
     this.isAnswerRight = false;
     this.setTask();
+  }
+
+  ngAfterViewInit(): void {
+   // this.ref.detectChanges();
+    this.nomInp.nativeElement.focus();
   }
 
   setTask(): void {
@@ -195,7 +200,7 @@ export class GroupqComponent implements OnInit {
     this.setFracs(nominator1, denominator1, nominator2, denominator2);
     this.mkProblemText(this.operation);
 
-    this.nomInp.nativeElement.focus();
+   // this.nomInp.nativeElement.focus();
   }
 
   checkAnswer(): void {
@@ -235,6 +240,11 @@ export class GroupqComponent implements OnInit {
 
   nomEnter() {
     this.denomInp.nativeElement.focus();
+  }
+
+  denEnter() {
+    this.checkAnswer();
+    this.nomInp.nativeElement.focus();
   }
 
   setFracs(nominator1: number, denominator1: number, nominator2: number, denominator2: number): void {

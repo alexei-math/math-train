@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ViewData, ScoreData} from '../modules/modules';
 import { getRandom} from '../modules/math';
 
@@ -7,9 +7,11 @@ import { getRandom} from '../modules/math';
   templateUrl: './groupz.component.html',
   styleUrls: ['./groupz.component.css'],
 })
-export class GroupzComponent implements OnInit {
+export class GroupzComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('answerText', {static: true}) ansTxt: ElementRef;
+  // private ansTxt: ElementRef;
+
+  @ViewChild('answerText', {static: false}) ansTxt: ElementRef;
   viewGroupZData: ViewData;
   scoreGroupZData: ScoreData;
 
@@ -41,6 +43,10 @@ export class GroupzComponent implements OnInit {
       solvedProblems: 0
     };
     this.setTask();
+    // this.ansTxt.nativeElement.focus();
+  }
+
+  ngAfterViewInit(): void {
     this.ansTxt.nativeElement.focus();
   }
 

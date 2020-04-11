@@ -2,20 +2,18 @@
 
 <div class="row">
   <div class="col-12" >
-    <div [ngStyle]="{
-        display: viewData.inputDisabled ? 'none' : 'block'
-    }">
+    <div  *ngIf="!viewData.inputDisabled">
       <table class="center">
         <tr>
           <td class="td-center">
             <input
               type="text"
               class="small-input"
-              placeholder="чис"
+              placeholder="числ"
               (keyup.enter)="nomEnter()"
               [(ngModel)]="fracA.nominA" #nominatorInput
             ></td>
-          <td rowspan="3"><button class="valign mybtn" (click)="checkAnswer()">Ответить</button></td>
+          <td rowspan="3"><button class="valign mybtn" (click)="denEnter()">Ответить</button></td>
         </tr>
         <tr>
           <td><div class="black-line">&nbsp;</div></td>
@@ -25,8 +23,8 @@
             <input
               type="text"
               class="small-input"
-              placeholder="зн"
-              (keyup.enter)="checkAnswer()"
+              placeholder="знам"
+              (keyup.enter)="denEnter()"
               [(ngModel)]="fracA.denomA"  #denominatorInput></td>
         </tr>
       </table>
