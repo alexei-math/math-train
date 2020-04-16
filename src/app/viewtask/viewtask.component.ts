@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {KatexOptions} from 'ng-katex';
-import {ViewData} from '../modules/modules';
+import {ViewData} from '../modules/iface.module';
 
 @Component({
   selector: 'app-viewtask',

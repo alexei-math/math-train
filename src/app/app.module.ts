@@ -32,8 +32,8 @@ import { GroupqComponent } from './groupq/groupq.component';
     GroupqComponent
   ],
   imports: [
-    NgbModule,
     BrowserModule,
+    NgbModule,
     FormsModule,
     MathJaxModule.forRoot({
       version: '2.7.5',

@@ -1,31 +1,49 @@
 <div class="row">
   <div class="col">
-    <nav ngbNav #nav="ngbNav" class="nav-tabs">
-      <ng-container ngbNavItem>
-        <a ngbNavLink>Таблица умножений</a>
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+      <li ngbNavItem>
+        <a ngbNavLink (click)="currentTask=1">Таблица умножений</a>
         <ng-template ngbNavContent>
           <app-multtab></app-multtab>
         </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a ngbNavLink>Целые числа</a>
-        <ng-template ngbNavContent>
-          <app-groupz></app-groupz>
-        </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a ngbNavLink>Дроби</a>
+      </li>
+<!--      <li ngbNavItem>-->
+<!--        <a ngbNavLink>Целые числа</a>-->
+<!--        <ng-template ngbNavContent>-->
+<!--          <app-groupz></app-groupz>-->
+<!--        </ng-template>-->
+<!--      </li>-->
+      <li ngbDropdown class="nav-item dropdown">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle"
+           href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false">Целые числа</a>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+          <div ngbNavItem><a ngbNavLink class="dropdown-item" (click)="currentTask=2">Сложение и вычитание</a>
+          </div>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li ngbNavItem>
+        <a ngbNavLink (click)="currentTask=4">Дроби</a>
         <ng-template ngbNavContent>
           <app-groupq></app-groupq>
         </ng-template>
-      </ng-container>
-      <ng-container ngbNavItem>
-        <a ngbNavLink>Квадратные уравнения</a>
+      </li>
+      <li ngbNavItem>
+        <a ngbNavLink (click)="currentTask=7">Квадратные уравнения</a>
         <ng-template ngbNavContent>
           <app-squareeq></app-squareeq>
         </ng-template>
-      </ng-container>
-    </nav>
-    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </li>
+    </ul>
+<!--    <div [ngbNavOutlet]="nav" class="mt-2"></div>-->
+
+    <div [ngSwitch]="currentTask">
+      <div *ngSwitchCase="1"><app-multtab></app-multtab></div>
+      <div *ngSwitchCase="2"><app-groupz></app-groupz></div>
+      <div *ngSwitchCase="4"><app-groupq></app-groupq></div>
+      <div *ngSwitchCase="7"><app-squareeq></app-squareeq></div>
+    </div>
   </div>
 </div>

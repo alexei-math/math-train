@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ViewData, ScoreData} from '../modules/modules';
-import { getRandom, GCD} from '../modules/math';
+import {ViewData, ScoreData} from '../modules/iface.module';
+import { getRandom, GCD} from '../modules/math.module';
 
 interface CoeffSE {
   a: number;

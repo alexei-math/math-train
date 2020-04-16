@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ViewData, ScoreData} from '../modules/modules';
-import { getRandom} from '../modules/math';
+import { ViewData, ScoreData, MathExpression } from '../modules/iface.module';
+import { getRandom } from '../modules/math.module';
+import { mkMathExp } from '../modules/string.module';
 
 @Component({
   selector: 'app-groupz',
@@ -9,19 +10,11 @@ import { getRandom} from '../modules/math';
 })
 export class GroupzComponent implements OnInit, AfterViewInit {
 
-  // private ansTxt: ElementRef;
-
   @ViewChild('answerText', {static: false}) ansTxt: ElementRef;
   viewGroupZData: ViewData;
   scoreGroupZData: ScoreData;
+  currentTask: MathExpression;
 
-  a: number;
-  b: number;
-  modifB = '';
-  flagNegative = false;
-  flagNegativeA = false;
-  flagNegativeB = false;
-  problemText = '';
   isAnswerRight = false;
   res = 0;
   answerRecense = '';
@@ -42,8 +35,12 @@ export class GroupzComponent implements OnInit, AfterViewInit {
       givenProblems: 0,
       solvedProblems: 0
     };
+    this.currentTask = {
+      leftExp: 0,
+      rightExp: 0,
+      operation: '+'
+    };
     this.setTask();
-    // this.ansTxt.nativeElement.focus();
   }
 
   ngAfterViewInit(): void {
@@ -51,33 +48,33 @@ export class GroupzComponent implements OnInit, AfterViewInit {
   }
 
   setTask() {
-    this.a = getRandom(1, 50);
-    this.b = getRandom(1, 50);
-    this.flagNegative = !!getRandom(0, 1);
-    this.flagNegativeA = !!getRandom(0, 1);
-    this.flagNegativeB = !!getRandom(0, 1);
-    if (this.flagNegativeB) {
-      this.b = - this.b;
-      this.modifB = `(${this.b})`;
+    if (getRandom(0, 19) % 2 === 0) {
+      this.currentTask.leftExp = getRandom(1, 50);
     } else {
-      this.modifB = `${this.b}`;
+      this.currentTask.leftExp = getRandom( -50, -1);
     }
-    if (this.flagNegativeA) {
-      this.a = - this.a;
-    }
-    if (this.flagNegative) {
-      this.problemText = `${this.a} - ${this.modifB}`;
-      this.viewGroupZData.problemText = `${this.a} - ${this.modifB}`;
+    if (getRandom(0, 19) % 2 === 0) {
+      this.currentTask.rightExp = getRandom(1, 50);
     } else {
-      this.problemText = `${this.a} + ${this.modifB}`;
-      this.viewGroupZData.problemText = `${this.a} + ${this.modifB}`;
+      this.currentTask.rightExp = getRandom(-50, -1);
     }
+    if (getRandom(0, 19) % 2 === 0) {
+      this.currentTask.operation = '+';
+    } else {
+      this.currentTask.operation = '-';
+    }
+    this.viewGroupZData.problemText = mkMathExp(this.currentTask);
   }
 
   checkAnswer(event: KeyboardEvent) {
     this.tempStr = (event.target as HTMLInputElement).value;
-    this.res = (this.flagNegative) ? this.a - this.b : this.a + this.b;
-    this.isAnswerRight = this.res === Number(this.tempStr);
+    // this.res = (this.currentTask.operation === '-') ? +this.currentTask.leftExp -
+    //                       (+this.currentTask.rightExp) : +this.currentTask.leftExp +
+    //                       (+this.currentTask.rightExp);
+    // Здесь как нельзя лучше походит eval().
+    // tslint:disable-next-line:no-eval
+    this.res = eval (this.viewGroupZData.problemText);
+    this.isAnswerRight = this.res === +this.tempStr;
     if (this.isAnswerRight) {
       this.scoreGroupZData.solvedProblems += 1;
       this.answerRecense = 'Правильно';

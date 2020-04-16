@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ViewData, ScoreData} from '../modules/modules';
-import { getRandom } from '../modules/math';
+import {ViewData, ScoreData} from '../modules/iface.module';
+import { getRandom } from '../modules/math.module';
 
 @Component({
   selector: 'app-multtab',

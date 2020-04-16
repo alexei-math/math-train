@@ -1,6 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild,  AfterViewInit} from '@angular/core';
-import {ScoreData, ViewData} from '../modules/modules';
-import {getRandom, GCD, NumQ} from '../modules/math';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {OperationType, ScoreData, ViewData} from '../modules/iface.module';
+import {GCD, getRandom, NumQ} from '../modules/math.module';
 
 @Component({
   selector: 'app-groupq',
@@ -38,7 +38,7 @@ export class GroupqComponent implements OnInit, AfterViewInit {
   };
 
   isAnswerRight: boolean;
-  operation: number;  // 0 - сложение, 1 - вычитание, 2 - умножение, 3 - деление
+  operation: OperationType;  // 0 - сложение, 1 - вычитание, 2 - умножение, 3 - деление
   answerRecense = '';
   answerComplete = '';
 
@@ -63,7 +63,6 @@ export class GroupqComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-   // this.ref.detectChanges();
     this.nomInp.nativeElement.focus();
   }
 
@@ -84,12 +83,12 @@ export class GroupqComponent implements OnInit, AfterViewInit {
       case 1: denominator1 = denominator2 = primes[getRandom(1, 9)];
               nominator1 = getRandom(1, Math.floor(denominator1 / 2));
               nominator2 = getRandom(1, Math.floor(denominator2 / 2));
-              this.operation = 0; // сложение
+              this.operation = OperationType.Add; // сложение
               break;
       case 2: denominator1 = denominator2 = primes[getRandom(2, 9)];
               nominator1 = getRandom(Math.ceil(denominator1 / 2), denominator1 - 1);
               nominator2 = getRandom(1, Math.floor(denominator2 / 2));
-              this.operation = 1; // вычитание
+              this.operation = OperationType.Subtract; // вычитание
               break;
       case 3: do {
                   d1 = primes[getRandom(3, 5)];
@@ -104,7 +103,7 @@ export class GroupqComponent implements OnInit, AfterViewInit {
                   nominator1 = getRandom(1, Math.floor(denominator1 / 2));
                   nominator2 = getRandom(1, Math.floor(denominator2 / 2));
               } while (GCD(nominator1, denominator1) * GCD(nominator2, denominator2) !== 1);
-              this.operation = 0; // сложение
+              this.operation = OperationType.Add; // сложение
               break;
       case 4: do {
                   d1 = primes[getRandom(3, 5)];
@@ -119,7 +118,7 @@ export class GroupqComponent implements OnInit, AfterViewInit {
                   nominator1 = getRandom(Math.ceil(denominator1 / 2), denominator1 - 1);
                   nominator2 = getRandom(1, Math.floor(denominator2 / 2));
               } while (GCD(nominator1, denominator1) * GCD(nominator2, denominator2) !== 1);
-              this.operation = 1; // вычитание
+              this.operation = OperationType.Subtract; // вычитание
               break;
       case 5: denominator1 = primes[getRandom(0, 9)];
               do {
@@ -127,7 +126,7 @@ export class GroupqComponent implements OnInit, AfterViewInit {
               } while (GCD(denominator1, denominator2) !== 1);
               nominator1 = getRandom(1, Math.floor(denominator1 / 2));
               nominator2 = getRandom(1, Math.floor(denominator2 / 2));
-              this.operation = 0;
+              this.operation = OperationType.Add;
               break;
       case 6: denominator1 = primes[getRandom(0, 9)];
               do {
@@ -146,7 +145,7 @@ export class GroupqComponent implements OnInit, AfterViewInit {
                 denominator1 = denominator2;
                 denominator2 = t;
               }
-              this.operation = 1;
+              this.operation = OperationType.Subtract;
               break;
       case 7: this.operation = getRandom(0, 10) % 2;
               a = primes[getRandom(0, 3)];            // Знаменатели a*b*c и a*b*d, c != d
@@ -173,13 +172,13 @@ export class GroupqComponent implements OnInit, AfterViewInit {
               c = primes[getRandom(0, 30) % 3];
               denominator1 *= c;
               denominator2 *= c;
-              this.operation = getRandom(0, 10) % 2;
+              this.operation = getRandom(0, 10) % 2 === 0 ? OperationType.Add : OperationType.Subtract;
               break;
       default: nominator2 = nominator1 = denominator2 = denominator1 = 1;
     }
 
     if (this.levelQ === 7 || this.levelQ === 8) {
-      if (this.operation === 0) {
+      if (this.operation === OperationType.Add) {
         do {
           nominator1 = getRandom(1, Math.floor(denominator1 / 2));
         } while (GCD(nominator1, denominator1) !== 1);
@@ -199,8 +198,6 @@ export class GroupqComponent implements OnInit, AfterViewInit {
     this.viewData.description = 'Уровень ' + this.levelQ;
     this.setFracs(nominator1, denominator1, nominator2, denominator2);
     this.mkProblemText(this.operation);
-
-   // this.nomInp.nativeElement.focus();
   }
 
   checkAnswer(): void {

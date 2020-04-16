@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ScoreData, ViewData} from '../modules/modules';
+import {ScoreData, ViewData} from '../modules/iface.module';
 
 
 @Component({

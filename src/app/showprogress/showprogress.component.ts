@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ScoreData} from '../modules/modules';
+import {ScoreData} from '../modules/iface.module';
 
 @Component({
   selector: 'app-showprogress',
