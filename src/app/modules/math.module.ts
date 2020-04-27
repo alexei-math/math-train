@@ -1,22 +1,42 @@
+/**
+ * Generating random number from minNumber to MaxNumber
+ * @param minNumber --> Lower boundary of generated random number
+ * @param maxNumber --> Upper boundary of generated random number
+ */
 export function getRandom(minNumber: number, maxNumber: number) {
   return Math.floor(Math.random() * (Number(maxNumber) - Number(minNumber) + 1) + Number(minNumber));
 }
 
-export function GCD(n: number, m: number) {
+/**
+ * Recursive version of Euclidean Algorithm of finding Greatest Common Divisor
+ * @param mInput --> First input number
+ * @param nInput --> Second input number
+ * @return --> GCD
+ */
+export function GCD(mInput: number, nInput: number) {
 
-  while (m) {
-    const t = m;
-    m = n % m;
-    n = t;
-  }
+  // Making input numbers to be non-negative
+  const m = Math.abs(mInput);
+  const n = Math.abs(nInput);
 
-  return n;
+  return (n === 0) ? m : GCD(n, m % n);
 }
 
+/**
+ * Finding of Least Common Multiple
+ * @param n --> First input number
+ * @param m --> Second input number
+ * @return LCM --> (a * b) / GCD (a, b)
+ */
 export function LCM(n: number, m: number) {
-  return n * m / GCD (n, m);
+  return (n === 0 || m === 0) ? 0 : Math.abs(n * m) / GCD (n, m);
 }
 
+/**
+ * Integer division without remainder
+ * @param dividend --> Dividend (integer)
+ * @param divisor --> Divisor (integer)
+ */
 export function div(dividend: number, divisor: number) {
   return (dividend - dividend % divisor) / divisor;
 }

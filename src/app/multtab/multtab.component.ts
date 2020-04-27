@@ -1,23 +1,26 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {ViewData, ScoreData} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
+import {TimerTaskService} from '../services/timer-task.service';
 
 @Component({
   selector: 'app-multtab',
   templateUrl: './multtab.component.html',
   styleUrls: ['./multtab.component.css']
 })
-export class MulttabComponent implements OnInit, AfterViewInit {
+export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('inputAns', {static: false}) inpAns: ElementRef;
+  @Output() changeTime: EventEmitter<string> = new EventEmitter<string>();
+
   viewMultiData: ViewData;
   scoreMultiData: ScoreData;
-
   numberTask = {firstNumber: 0, secondNumber: 0};
   ans = '';
   ansHints = {res: '', complete: ''};
 
-  constructor() { }
+  constructor(private timerTask: TimerTaskService) {
+  }
 
   ngOnInit(): void {
 
@@ -35,10 +38,15 @@ export class MulttabComponent implements OnInit, AfterViewInit {
     };
 
     this.setTask();
+    this.timerTask.initTimer(10);
   }
 
   ngAfterViewInit(): void {
     this.inpAns.nativeElement.focus();
+  }
+
+  ngOnDestroy(): void {
+    this.timerTask.stopTimer();
   }
 
   setTask() {

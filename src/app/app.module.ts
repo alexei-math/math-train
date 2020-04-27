@@ -16,6 +16,11 @@ import { ViewtaskComponent } from './viewtask/viewtask.component';
 import { GcdComponent } from './gcd/gcd.component';
 import { ShowprogressComponent } from './showprogress/showprogress.component';
 import { GroupqComponent } from './groupq/groupq.component';
+import { RingzComponent } from './ringz/ringz.component';
+import { GroupqmComponent } from './groupqm/groupqm.component';
+import {AppRoutingModule} from './app-routing.module';
+import {MenuDirective} from './directives/menu.directive';
+import {TimerTaskService} from './services/timer-task.service';
 
 @NgModule({
   declarations: [
@@ -29,10 +34,14 @@ import { GroupqComponent } from './groupq/groupq.component';
     ViewtaskComponent,
     GcdComponent,
     ShowprogressComponent,
-    GroupqComponent
+    GroupqComponent,
+    RingzComponent,
+    GroupqmComponent,
+    MenuDirective
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     NgbModule,
     FormsModule,
     MathJaxModule.forRoot({
@@ -42,7 +51,7 @@ import { GroupqComponent } from './groupq/groupq.component';
     }),
     KatexModule
   ],
-  providers: [],
+  providers: [TimerTaskService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,25 @@
+<app-viewtask [viewData]="viewData"></app-viewtask>
+
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="!viewData.inputDisabled && !timeTask.inputDisabled" class="div-center">
+      <input
+        *ngIf="!viewData.inputDisabled"
+        type="text"
+        (keyup.enter)="checkAnswer()"
+        [(ngModel)]="answerText"
+        placeholder="Ответ" #ansText><br />
+      <span style="font-size: 0.8rem; color: #777777" *ngIf="!viewData.inputDisabled"> Введите ответ и нажите Enter</span>
+    </div>
+    <div class="div-center">
+      <p [ngStyle]="{
+            color: isAnswerRight ? 'green' : 'red'
+          }">{{answerRecense}}
+      </p>
+      <p *ngIf="timeTask.inputDisabled" style="color: red">{{timeTask.complete}}</p>
+    </div>
+  </div>
+</div>
+
+
+<app-showprogress [scoreData]="scoreRZData"></app-showprogress>

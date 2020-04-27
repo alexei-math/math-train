@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col" [ngStyle]="{
           textAlign: 'center',
-          display: (viewSqEqData.inputDisabled) ? 'none' : 'block'
+          display: (viewSqEqData.inputDisabled && timeTask.inputDisabled) ? 'none' : 'block'
         }">
     x<sub>1</sub> =
     <input
@@ -37,6 +37,7 @@
         marginTop: '0.5rem',
         color: (answerHints.res === 'Правильно!') ? 'green' : 'red'
     }">{{answerHints.res}}<br />{{answerHints.complete}}</p>
+    <p *ngIf="timeTask.inputDisabled" style="color: red">{{timeTask.complete}}</p>
   </div>
 </div>
 <div class="row div-center" *ngIf="levelHint(1)">

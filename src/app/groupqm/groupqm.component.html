@@ -11,7 +11,7 @@
               class="small-input"
               placeholder="числ"
               (keyup.enter)="nomEnter()"
-              [(ngModel)]="fracA.nominA" #nominatorInput
+              [(ngModel)]="fracAns.nominAns" #nominatorInput
             ></td>
           <td rowspan="3"><button class="valign mybtn" (click)="denEnter()">Ответить</button></td>
         </tr>
@@ -25,7 +25,7 @@
               class="small-input"
               placeholder="знам"
               (keyup.enter)="denEnter()"
-              [(ngModel)]="fracA.denomA"  #denominatorInput></td>
+              [(ngModel)]="fracAns.denomAns"  #denominatorInput></td>
         </tr>
       </table>
     </div>
@@ -38,4 +38,4 @@
   </div>
 </div>
 
-<app-showprogress [scoreData]="scoreGQData"></app-showprogress>
+<app-showprogress [scoreData]="scoreData"></app-showprogress>

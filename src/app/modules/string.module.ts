@@ -1,4 +1,5 @@
 import { MathExpression } from './iface.module';
+import {div} from './math.module';
 
 export function mkLeftPartExp() {
   let tempStr = '';
@@ -62,4 +63,15 @@ export function mkMathExp(m: MathExpression) {
   let tempStr = mkLeftPartExp.bind(m)();
   tempStr += mkRightPartExp.bind(m)();
   return tempStr;
+}
+
+export function mkTimeString(value: number): string {
+  const minutes = div(value, 60);
+  const seconds = value % 60;
+  let timerString = '';
+  timerString += (minutes < 10) ? '0' : '';
+  timerString += minutes + ':';
+  timerString += (seconds < 10) ? '0' : '';
+  timerString += seconds;
+  return timerString;
 }

@@ -1,6 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ViewData, ScoreData} from '../modules/iface.module';
 import { getRandom, GCD} from '../modules/math.module';
+import {TimerTaskService} from '../services/timer-task.service';
 
 interface CoeffSE {
   a: number;
@@ -19,9 +20,10 @@ interface RootsSE {
   styleUrls: ['./squareeq.component.css']
 })
 
-export class SquareeqComponent implements OnInit {
+export class SquareeqComponent implements OnInit, OnDestroy {
 
   @ViewChild('inpXTxt', {static: true}) inpX1: ElementRef;
+
   viewSqEqData: ViewData;
   scoreSqEqData: ScoreData;
 
@@ -35,7 +37,8 @@ export class SquareeqComponent implements OnInit {
   inputsAns = {X1: '', X2: '', A: '', B: '', C: '', Disc: '', SqDisc: '', X1new: '', X2new: ''};
 
 
-  constructor() { }
+  constructor(private timeTask: TimerTaskService) {
+  }
 
   ngOnInit(): void {
 
@@ -52,8 +55,12 @@ export class SquareeqComponent implements OnInit {
     };
     this.levelEq = 1;
     this.setTask(this.levelEq);
+    this.timeTask.initTimer(15);
   }
 
+ ngOnDestroy(): void {
+    this.timeTask.stopTimer();
+ }
 
   setTask(level: number) {
 
@@ -65,42 +72,42 @@ export class SquareeqComponent implements OnInit {
     this.inputsAns.B = '';
     this.inputsAns.C = '';
 
-    if (level === 1) {
-      minR = 1;
-      maxR = 10;
-      this.rootsSE = { x1: getRandom(minR, maxR), x2: getRandom(minR, maxR)};
-    }
-    if (level === 2) {
-      minR = 0;
-      maxR = 15;
-      this.rootsSE = { x1: getRandom(minR, maxR), x2: getRandom(-maxR, -minR)};
-    }
-    if (level === 3) {
-      minR = -15;
-      maxR = 15;
-      this.rootsSE = { x1: getRandom(minR, maxR), x2: getRandom(minR, maxR)};
-    }
-    if (level === 4) {
-      minR = -9;
-      maxR = 9;
-      const  tempSign = (getRandom(0, 1)) ? 1 : -1;
-      this.rootsSE = { x1: tempSign * getRandom(1, 9) , x2: getRandom(minR, maxR)};
+    switch (level) {
+      case 1: minR = 1;
+              maxR = 10;
+              this.rootsSE = { x1: getRandom(minR, maxR), x2: getRandom(minR, maxR)};
+              break;
+      case 2: minR = 0;
+              maxR = 15;
+              this.rootsSE = { x1: getRandom(minR, maxR), x2: getRandom(-maxR, -minR)};
+              break;
+      case 3: minR = -15;
+              maxR = 15;
+              this.rootsSE = { x1: getRandom(minR, maxR), x2: getRandom(minR, maxR)};
+              break;
+      case 4: minR = -9;
+              maxR = 9;
+              const  tempSign = (getRandom(0, 1)) ? 1 : -1;
+              this.rootsSE = { x1: tempSign * getRandom(1, 9) , x2: getRandom(minR, maxR)};
     }
 
-    if (level === 1 || level === 2) {
-      this.coeffSE = {a: 1, b: - (this.rootsSE.x1 + this.rootsSE.x2), c: this.rootsSE.x1 * this.rootsSE.x2};
-    }
-    if (level === 3) {
-      const  tempSign = (getRandom(0, 1)) ? 1 : -1;
-      this.coeffSE = {a: tempSign, b: -tempSign * (this.rootsSE.x1 + this.rootsSE.x2), c: tempSign * this.rootsSE.x1 * this.rootsSE.x2};
-    }
-    if (level === 4) {
-      const ta = 10;
-      const tb = 10 * this.rootsSE.x1 + this.rootsSE.x2;
-      const tc = this.rootsSE.x1 * this.rootsSE.x2;
-      const  gcd = GCD(ta, GCD(Math.abs(tb), Math.abs(tc)));
-      const  tempSign = (getRandom(0, 1)) ? 1 : -1;
-      this.coeffSE = {a: tempSign * ta / gcd, b: -tempSign * tb / gcd, c: tempSign * tc / gcd};
+    switch (level) {
+      case 1:
+      case 2: this.coeffSE = {a: 1, b: - (this.rootsSE.x1 + this.rootsSE.x2), c: this.rootsSE.x1 * this.rootsSE.x2};
+              break;
+      case 3: const tempSign = (getRandom(0, 1)) ? 1 : -1;
+              this.coeffSE = {
+                a: tempSign,
+                b: -tempSign * (this.rootsSE.x1 + this.rootsSE.x2),
+                c: tempSign * this.rootsSE.x1 * this.rootsSE.x2
+              };
+              break;
+      case 4: const ta = 10;
+              const tb = 10 * this.rootsSE.x1 + this.rootsSE.x2;
+              const tc = this.rootsSE.x1 * this.rootsSE.x2;
+              const  gcd = GCD(ta, GCD(Math.abs(tb), Math.abs(tc)));
+              const tempSign1 = (getRandom(0, 1)) ? 1 : -1;
+              this.coeffSE = {a: tempSign1 * ta / gcd, b: -tempSign1 * tb / gcd, c: tempSign1 * tc / gcd};
     }
 
     this.viewSqEqData.inputDisabled = false;

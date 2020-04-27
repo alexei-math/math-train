@@ -5,7 +5,7 @@
           textAlign: 'center'
         }">
     <input
-      *ngIf="!viewGroupZData.inputDisabled"
+      *ngIf="!viewGroupZData.inputDisabled && !timeTask.inputDisabled"
       type="text"
       (keyup.enter)="checkAnswer($event)"
       [(ngModel)]="valueAnswerText"
@@ -13,8 +13,9 @@
     <span style="font-size: 0.8rem; color: #777777" *ngIf="!viewGroupZData.inputDisabled"> Введите ответ и нажите Enter</span>
     <p [ngStyle]="{
             color: isAnswerRight ? 'green' : 'red'
-          }"><strong>{{answerRecense}}</strong></p>
-
+          }">{{answerRecense}}
+    </p>
+    <p *ngIf="timeTask.inputDisabled" style="color: red">{{timeTask.complete}}</p>
   </div>
 </div>
 

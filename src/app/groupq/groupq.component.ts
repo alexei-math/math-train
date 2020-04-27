@@ -1,16 +1,18 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {OperationType, ScoreData, ViewData} from '../modules/iface.module';
 import {GCD, getRandom, NumQ} from '../modules/math.module';
+import {TimerTaskService} from '../services/timer-task.service';
 
 @Component({
   selector: 'app-groupq',
   templateUrl: './groupq.component.html',
   styleUrls: ['./groupq.component.css']
 })
-export class GroupqComponent implements OnInit, AfterViewInit {
+export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
 
    @ViewChild('nominatorInput', {static: false}) nomInp: ElementRef;
    @ViewChild('denominatorInput', {static: false}) denomInp: ElementRef;
+   @Output() changeTime: EventEmitter<string> = new EventEmitter<string>();
 
   viewData: ViewData;
   scoreGQData: ScoreData = {
@@ -42,11 +44,11 @@ export class GroupqComponent implements OnInit, AfterViewInit {
   answerRecense = '';
   answerComplete = '';
 
-  constructor() {
+  constructor(private timeTask: TimerTaskService) {
     this.frac1 = new NumQ();
     this.frac2 = new NumQ();
     this.fract = new NumQ();
-  }
+    }
 
   ngOnInit(): void {
 
@@ -60,10 +62,15 @@ export class GroupqComponent implements OnInit, AfterViewInit {
     this.levelQ = 1;
     this.isAnswerRight = false;
     this.setTask();
+    this.timeTask.initTimer(15);
   }
 
   ngAfterViewInit(): void {
     this.nomInp.nativeElement.focus();
+  }
+
+  ngOnDestroy(): void {
+   this.timeTask.stopTimer();
   }
 
   setTask(): void {

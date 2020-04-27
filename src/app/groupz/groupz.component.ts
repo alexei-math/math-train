@@ -1,16 +1,18 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { ViewData, ScoreData, MathExpression } from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
-import { mkMathExp } from '../modules/string.module';
+import {mkMathExp} from '../modules/string.module';
+import {TimerTaskService} from '../services/timer-task.service';
 
 @Component({
   selector: 'app-groupz',
   templateUrl: './groupz.component.html',
   styleUrls: ['./groupz.component.css'],
 })
-export class GroupzComponent implements OnInit, AfterViewInit {
+export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('answerText', {static: false}) ansTxt: ElementRef;
+
   viewGroupZData: ViewData;
   scoreGroupZData: ScoreData;
   currentTask: MathExpression;
@@ -21,7 +23,8 @@ export class GroupzComponent implements OnInit, AfterViewInit {
   tempStr = '';
   valueAnswerText = '';
 
-  constructor() { }
+  constructor(private timeTask: TimerTaskService) {
+  }
 
   ngOnInit(): void {
     this.viewGroupZData = {
@@ -41,10 +44,15 @@ export class GroupzComponent implements OnInit, AfterViewInit {
       operation: '+'
     };
     this.setTask();
+    this.timeTask.initTimer(15);
   }
 
   ngAfterViewInit(): void {
     this.ansTxt.nativeElement.focus();
+  }
+
+  ngOnDestroy(): void {
+    this.timeTask.stopTimer();
   }
 
   setTask() {
