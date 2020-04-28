@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ViewData, ScoreData} from '../modules/iface.module';
+import {ViewData, ScoreData, Visited} from '../modules/iface.module';
 import { getRandom, GCD} from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
+import {VisitedService} from '../services/visited.service';
 
 interface CoeffSE {
   a: number;
@@ -35,9 +36,10 @@ export class SquareeqComponent implements OnInit, OnDestroy {
   flagIncorrectAnswer = false;
   answerHints = {m1: '', m2: '', m3: '', m4: '', m5: '', res: '', complete: ''};
   inputsAns = {X1: '', X2: '', A: '', B: '', C: '', Disc: '', SqDisc: '', X1new: '', X2new: ''};
+  t: Visited = new Visited();
 
 
-  constructor(private timeTask: TimerTaskService) {
+  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
   }
 
   ngOnInit(): void {
@@ -56,6 +58,9 @@ export class SquareeqComponent implements OnInit, OnDestroy {
     this.levelEq = 1;
     this.setTask(this.levelEq);
     this.timeTask.initTimer(15);
+    this.visited.getVisited('squareeq').subscribe((visited: Visited) => {
+      this.t = visited;
+    });
   }
 
  ngOnDestroy(): void {
@@ -190,6 +195,7 @@ export class SquareeqComponent implements OnInit, OnDestroy {
         if (this.scoreSqEqData.givenProblems >= this.scoreSqEqData.totalProblems){
           this.answerHints.complete = 'Тренировка завершена!';
           this.viewSqEqData.inputDisabled = true;
+          this.timeTask.stopTimer();
         } else {
           this.setTask(this.levelEq);
         }

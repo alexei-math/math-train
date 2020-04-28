@@ -21,6 +21,8 @@ import { GroupqmComponent } from './groupqm/groupqm.component';
 import {AppRoutingModule} from './app-routing.module';
 import {MenuDirective} from './directives/menu.directive';
 import {TimerTaskService} from './services/timer-task.service';
+import {VisitedService} from './services/visited.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -49,9 +51,10 @@ import {TimerTaskService} from './services/timer-task.service';
       config: 'TeX-AMS_HTML',
       hostname: 'cdnjs.cloudflare.com'
     }),
-    KatexModule
+    KatexModule,
+    HttpClientModule
   ],
-  providers: [TimerTaskService],
+  providers: [TimerTaskService, VisitedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

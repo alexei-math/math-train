@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {GCD, getRandom, NumQ} from '../modules/math.module';
-import {OperationType, ScoreData, ViewData} from '../modules/iface.module';
+import {OperationType, ScoreData, ViewData, Visited} from '../modules/iface.module';
 import {TimerTaskService} from '../services/timer-task.service';
+import {VisitedService} from '../services/visited.service';
 
 @Component({
   selector: 'app-groupqm',
@@ -36,14 +37,17 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   isAnswerRight = false;
   level = 1;
   operation: OperationType;
-  totalLevels = 4;
+  totalLevels = 6;
   lvlArr = {
     lvl1: 3,
     lvl2: 6,
-    lvl3: 9
+    lvl3: 9,
+    lvl4: 12,
+    lvl5: 16
   };
+  t: Visited = new Visited();
 
-  constructor(private timeTask: TimerTaskService) {
+  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
     this.frac1 = new NumQ();
     this.frac2 = new NumQ();
     this.fracTemp = new NumQ();
@@ -52,6 +56,9 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.setTask();
     this.timeTask.initTimer(15);
+    this.visited.getVisited('groupqm').subscribe((visited: Visited) => {
+      this.t = visited;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -67,9 +74,9 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
     let limMiddleArray;
     let limBigArray = 11;
     let op;
-    const smallNumberArray = [];
-    const middleNumberArray = [];
-    const bigNumberArray = [];
+    let smallNumberArray = [];
+    let middleNumberArray = [];
+    let bigNumberArray = [];
     let tempArray;
     let i = 1;
     switch (this.level) {
@@ -131,6 +138,37 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.frac2.denom = temp;
               }
               break;
+      case 5:
+      case 6: this.operation = (this.level === 5) ? OperationType.Multiply : OperationType.Divide;
+              op = (this.level === 5) ? ' \\cdot ' : ' : ';
+              smallNumberArray = [1, 2, 3, 5, 7];
+              middleNumberArray = [2, 3, 5, 7, 11];
+              bigNumberArray = [11, 13, 17, 19];
+              const a = bigNumberArray[getRandom(0, bigNumberArray.length - 1)];  // ac/be x bf/ag == cf / eq
+              let b;
+              do{
+                b = bigNumberArray[getRandom(0, bigNumberArray.length - 1)];
+              } while (b === a);
+              const c = smallNumberArray[getRandom(1, smallNumberArray.length - 1)];
+              const f = smallNumberArray[getRandom(1, smallNumberArray.length - 1)];
+              let e;
+              do {
+                e = middleNumberArray[getRandom(0, middleNumberArray.length - 1)];
+              } while (e === a || e === c);
+              let g;
+              do {
+                g = middleNumberArray[getRandom(0, middleNumberArray.length - 1)];
+              } while (g === b || g === f);
+              this.frac1.nom = a * c;
+              this.frac1.denom = b * e;
+              this.frac2.nom = b * f;
+              this.frac2.denom = a * g;
+              if (this.level === 6) {
+                const temp = this.frac2.nom;
+                this.frac2.nom = this.frac2.denom;
+                this.frac2.denom = temp;
+              }
+              break;
     }
     this.viewData.problemText = '\\frac{' + this.frac1.nom + '}{' + this.frac1.denom + '}'
       + op + '\\frac{' + this.frac2.nom + '}{' + this.frac2.denom + '}';
@@ -158,6 +196,7 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
               break;
       case 3: tempQ1 = this.frac1.divide(this.frac2);
     }
+    this.scoreData.givenProblems += 1;
     if (tempQ1.isEqual(tempQ)) {
       this.answerRecense = 'Правильно';
       this.isAnswerRight = true;
@@ -165,12 +204,18 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.scoreData.solvedProblems >= this.lvlArr['lvl' + this.level] && this.level < this.totalLevels) {
         this.level += 1;
       }
-      this.setTask();
+      if (this.scoreData.givenProblems < this.scoreData.totalProblems) {
+        this.setTask();
+      }
     } else {
       this.answerRecense = 'Неправильно';
       this.isAnswerRight = false;
     }
-    this.scoreData.givenProblems += 1;
+    if (this.scoreData.givenProblems >= this.scoreData.totalProblems) {
+      this.answerComplete = 'Тренировка закончена';
+      this.viewData.inputDisabled = true;
+      this.timeTask.stopTimer();
+    }
     this.fracAns.nominAns = this.fracAns.denomAns = '';
     this.viewData.description = `Уровень ${this.level}`;
   }

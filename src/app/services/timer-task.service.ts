@@ -17,6 +17,8 @@ export class TimerTaskService {
 
   initTimer( minutes: number) {
     this.timeToTest = minutes;
+    this.inputDisabled = false;
+    this.complete = '';
     this.sub = this.inpStream$.subscribe((value) => {
       this.timeStr = mkTimeString(value);
       if (value >= this.timeToTest * 60) {
@@ -29,6 +31,5 @@ export class TimerTaskService {
 
   stopTimer() {
     this.sub.unsubscribe();
-    this.timeStr = '00:00';
   }
 }

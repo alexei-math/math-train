@@ -1,8 +1,9 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MathExpression, ScoreData, ViewData} from '../modules/iface.module';
+import {MathExpression, ScoreData, ViewData, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {mkMathExp} from '../modules/string.module';
 import {TimerTaskService} from '../services/timer-task.service';
+import {VisitedService} from '../services/visited.service';
 
 @Component({
   selector: 'app-ringz',
@@ -37,7 +38,9 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
     lvl6: 18 * this.scoreRZData.totalProblems / 21
   };
 
-  constructor(private timeTask: TimerTaskService) {
+  t: Visited = new Visited();
+
+  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
   }
 
   ngOnInit(): void {
@@ -65,6 +68,9 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.setTask();
     this.timeTask.initTimer(15);
+    this.visited.getVisited('ringz').subscribe((visited: Visited) => {
+      this.t = visited;
+    });
   }
 
   ngAfterViewInit() {
@@ -186,6 +192,7 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.scoreRZData.givenProblems >= this.scoreRZData.totalProblems) {
       this.answerRecense = 'Тренировка закончена!';
       this.viewData.inputDisabled = true;
+      this.timeTask.stopTimer();
     }
     this.viewData.description = 'Уровень ' + this.levelZ;
     this.ansText.nativeElement.focus();

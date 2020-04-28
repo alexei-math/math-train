@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {OperationType, ScoreData, ViewData} from '../modules/iface.module';
+import {OperationType, ScoreData, ViewData, Visited} from '../modules/iface.module';
 import {GCD, getRandom, NumQ} from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
+import {VisitedService} from '../services/visited.service';
 
 @Component({
   selector: 'app-groupq',
@@ -44,7 +45,9 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
   answerRecense = '';
   answerComplete = '';
 
-  constructor(private timeTask: TimerTaskService) {
+  t: Visited = new Visited();
+
+  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
     this.frac1 = new NumQ();
     this.frac2 = new NumQ();
     this.fract = new NumQ();
@@ -63,6 +66,9 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isAnswerRight = false;
     this.setTask();
     this.timeTask.initTimer(15);
+    this.visited.getVisited('groupq').subscribe((visited: Visited) => {
+      this.t = visited;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -239,6 +245,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.scoreGQData.givenProblems >= this.scoreGQData.totalProblems) {
       this.viewData.inputDisabled = true;
       this.answerComplete = 'Тренировка завершена!';
+      this.timeTask.stopTimer();
     }
   }
 

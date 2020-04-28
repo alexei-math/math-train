@@ -5,3 +5,16 @@ a {
 ul {
   margin-bottom: 1rem
 }
+
+.navbar-dark .navbar-nav .nav-link {
+  color:#fff;
+  font-weight:500
+}
+
+.task-view {
+  margin-top: 1rem;
+}
+
+.time-view {
+  font-size: 0.9rem;
+}

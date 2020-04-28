@@ -1,7 +1,7 @@
 <app-viewtask [viewData]="viewMultiData"></app-viewtask>
 
 <div class="row">
-  <div class="col-12 div-center" *ngIf="!timerTask.inputDisabled && !viewMultiData.inputDisabled">
+  <div class="col-12 div-center" *ngIf="!timeTask.inputDisabled && !viewMultiData.inputDisabled">
     <input type="text" size="16" [(ngModel)]="ans" (keyup.enter)="checkAns()" placeholder="Ответ" #inputAns>
     <br />
     <small class="small-hint">Введите ответ и нажмите Enter</small>
@@ -14,8 +14,11 @@
     }">
     <p>{{ansHints.res}}</p>
     <p>{{ansHints.complete}}</p>
-    <p *ngIf="timerTask.inputDisabled" style="color: red">{{timerTask.complete}}</p>
+    <p *ngIf="timeTask.inputDisabled" class="p-complete">{{timeTask.complete}}</p>
   </div>
 </div>
 
 <app-showprogress [scoreData]="scoreMultiData"></app-showprogress>
+<div class="row">
+  <div class="col-12 div-visited"><small class="small-hint">Количество просмотров: {{t.visited}}</small></div>
+</div>

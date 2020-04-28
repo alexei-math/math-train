@@ -1,8 +1,9 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { ViewData, ScoreData, MathExpression } from '../modules/iface.module';
+import {ViewData, ScoreData, MathExpression, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {mkMathExp} from '../modules/string.module';
 import {TimerTaskService} from '../services/timer-task.service';
+import {VisitedService} from '../services/visited.service';
 
 @Component({
   selector: 'app-groupz',
@@ -22,8 +23,9 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
   answerRecense = '';
   tempStr = '';
   valueAnswerText = '';
+  t: Visited = new Visited();
 
-  constructor(private timeTask: TimerTaskService) {
+  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
   }
 
   ngOnInit(): void {
@@ -45,6 +47,9 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.setTask();
     this.timeTask.initTimer(15);
+    this.visited.getVisited('groupz').subscribe((visited: Visited) => {
+      this.t = visited;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -97,6 +102,7 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
     if ( this.scoreGroupZData.givenProblems >= this.scoreGroupZData.totalProblems) {
       this.answerRecense = 'Тренировка закончена!';
       this.viewGroupZData.inputDisabled = true;
+      this.timeTask.stopTimer();
     }
   }
 }

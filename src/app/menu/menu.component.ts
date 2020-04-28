@@ -9,7 +9,7 @@ import {TimerTaskService} from '../services/timer-task.service';
 
 export class MenuComponent implements OnInit {
 
-  constructor(protected timeTask: TimerTaskService) { }
+  constructor(public timeTask: TimerTaskService) { }
 
   ngOnInit(): void {
   }

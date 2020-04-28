@@ -17,6 +17,11 @@ export interface MathExpression {
   operation: string;
 }
 
+export class Visited {
+  page: string;
+  visited: number;
+}
+
 export enum OperationType {Add, Subtract, Multiply, Divide}
 
 export enum TypeTask { MultTable = 1, GroupZ, RingZ, GroupQ1, RingQ, FieldQ, SquareEq}

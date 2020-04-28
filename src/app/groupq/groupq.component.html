@@ -34,8 +34,12 @@
             marginTop: '0.5rem',
             color: isAnswerRight ? 'green' : 'red'
           }">{{answerRecense}}<br />{{answerComplete}}</p>
-    <p *ngIf="timeTask.inputDisabled" style="color: red">{{timeTask.complete}}</p>
+    <p *ngIf="timeTask.inputDisabled" class="p-complete">{{timeTask.complete}}</p>
   </div>
 </div>
 
 <app-showprogress [scoreData]="scoreGQData"></app-showprogress>
+
+<div class="row">
+  <div class="col-12 div-visited"><small class="small-hint">Количество просмотров: {{t.visited}}</small></div>
+</div>

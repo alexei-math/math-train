@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col" [ngStyle]="{
           textAlign: 'center',
-          display: (viewSqEqData.inputDisabled && timeTask.inputDisabled) ? 'none' : 'block'
+          display: (viewSqEqData.inputDisabled || timeTask.inputDisabled) ? 'none' : 'block'
         }">
     x<sub>1</sub> =
     <input
@@ -37,7 +37,7 @@
         marginTop: '0.5rem',
         color: (answerHints.res === 'Правильно!') ? 'green' : 'red'
     }">{{answerHints.res}}<br />{{answerHints.complete}}</p>
-    <p *ngIf="timeTask.inputDisabled" style="color: red">{{timeTask.complete}}</p>
+    <p *ngIf="timeTask.inputDisabled" class="p-complete">{{timeTask.complete}}</p>
   </div>
 </div>
 <div class="row div-center" *ngIf="levelHint(1)">
@@ -157,3 +157,7 @@
 </div>
 
 <app-showprogress [scoreData]="scoreSqEqData"></app-showprogress>
+
+<div class="row">
+  <div class="col-12 div-visited"><small class="small-hint">Количество просмотров: {{t.visited}}</small></div>
+</div>

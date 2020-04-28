@@ -1,7 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {ViewData, ScoreData} from '../modules/iface.module';
+import {ViewData, ScoreData, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
+import {VisitedService} from '../services/visited.service';
 
 @Component({
   selector: 'app-multtab',
@@ -18,8 +19,10 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   numberTask = {firstNumber: 0, secondNumber: 0};
   ans = '';
   ansHints = {res: '', complete: ''};
+  timesVisitedPage: number;
+  t: Visited = new Visited();
 
-  constructor(private timerTask: TimerTaskService) {
+  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
   }
 
   ngOnInit(): void {
@@ -38,7 +41,11 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.setTask();
-    this.timerTask.initTimer(10);
+    this.timeTask.initTimer(10);
+    this.visited.getVisited('multtab').subscribe( (visited: Visited) => {
+    this.t = visited;
+    });
+
   }
 
   ngAfterViewInit(): void {
@@ -46,7 +53,7 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.timerTask.stopTimer();
+    this.timeTask.stopTimer();
   }
 
   setTask() {
@@ -70,6 +77,7 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.scoreMultiData.givenProblems >= this.scoreMultiData.totalProblems) {
       this.ansHints.complete = 'Тренировка завершена!';
       this.viewMultiData.inputDisabled = true;
+      this.timeTask.stopTimer();
     }
   }
 }
