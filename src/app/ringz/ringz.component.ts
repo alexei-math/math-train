@@ -3,7 +3,8 @@ import {MathExpression, ScoreData, ViewData, Visited} from '../modules/iface.mod
 import { getRandom } from '../modules/math.module';
 import {mkMathExp} from '../modules/string.module';
 import {TimerTaskService} from '../services/timer-task.service';
-import {VisitedService} from '../services/visited.service';
+import {ApiServices} from '../services/api.services';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-ringz',
@@ -40,7 +41,7 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
 
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
   }
 
   ngOnInit(): void {
@@ -68,7 +69,9 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.setTask();
     this.timeTask.initTimer(15);
-    this.visited.getVisited('ringz').subscribe((visited: Visited) => {
+    this.api.getVisited('ringz')
+      .pipe(first())
+      .subscribe((visited: Visited) => {
       this.t = visited;
     });
   }

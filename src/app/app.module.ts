@@ -21,8 +21,9 @@ import { GroupqmComponent } from './groupqm/groupqm.component';
 import {AppRoutingModule} from './app-routing.module';
 import {MenuDirective} from './directives/menu.directive';
 import {TimerTaskService} from './services/timer-task.service';
-import {VisitedService} from './services/visited.service';
 import {HttpClientModule} from '@angular/common/http';
+import {ApiServices} from './services/api.services';
+import { LineareqComponent } from './lineareq/lineareq.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {HttpClientModule} from '@angular/common/http';
     GroupqComponent,
     RingzComponent,
     GroupqmComponent,
-    MenuDirective
+    MenuDirective,
+    LineareqComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,7 @@ import {HttpClientModule} from '@angular/common/http';
     KatexModule,
     HttpClientModule
   ],
-  providers: [TimerTaskService, VisitedService],
+  providers: [TimerTaskService, ApiServices],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

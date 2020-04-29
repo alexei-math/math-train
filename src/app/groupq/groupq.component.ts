@@ -2,7 +2,8 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, O
 import {OperationType, ScoreData, ViewData, Visited} from '../modules/iface.module';
 import {GCD, getRandom, NumQ} from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
-import {VisitedService} from '../services/visited.service';
+import {ApiServices} from '../services/api.services';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-groupq',
@@ -47,7 +48,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
     this.frac1 = new NumQ();
     this.frac2 = new NumQ();
     this.fract = new NumQ();
@@ -66,7 +67,9 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isAnswerRight = false;
     this.setTask();
     this.timeTask.initTimer(15);
-    this.visited.getVisited('groupq').subscribe((visited: Visited) => {
+    this.api.getVisited('groupq')
+      .pipe(first())
+      .subscribe((visited: Visited) => {
       this.t = visited;
     });
   }

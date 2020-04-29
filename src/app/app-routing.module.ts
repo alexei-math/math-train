@@ -7,6 +7,7 @@ import {RingzComponent} from './ringz/ringz.component';
 import {SquareeqComponent} from './squareeq/squareeq.component';
 import {GroupqComponent} from './groupq/groupq.component';
 import {GroupqmComponent} from './groupqm/groupqm.component';
+import {LineareqComponent} from './lineareq/lineareq.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
       {path: 'squareeq', component: SquareeqComponent},
       {path: 'groupq', component: GroupqComponent},
       {path: 'groupqm', component: GroupqmComponent},
+      {path: 'lineareq', component: LineareqComponent},
       {path: '**', redirectTo: '/multtab'}
     ]
   }

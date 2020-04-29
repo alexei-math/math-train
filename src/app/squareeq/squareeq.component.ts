@@ -2,7 +2,8 @@ import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core
 import {ViewData, ScoreData, Visited} from '../modules/iface.module';
 import { getRandom, GCD} from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
-import {VisitedService} from '../services/visited.service';
+import {ApiServices} from '../services/api.services';
+import {first} from 'rxjs/operators';
 
 interface CoeffSE {
   a: number;
@@ -39,7 +40,7 @@ export class SquareeqComponent implements OnInit, OnDestroy {
   t: Visited = new Visited();
 
 
-  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
   }
 
   ngOnInit(): void {
@@ -58,7 +59,9 @@ export class SquareeqComponent implements OnInit, OnDestroy {
     this.levelEq = 1;
     this.setTask(this.levelEq);
     this.timeTask.initTimer(15);
-    this.visited.getVisited('squareeq').subscribe((visited: Visited) => {
+    this.api.getVisited('squareeq')
+      .pipe(first())
+      .subscribe((visited: Visited) => {
       this.t = visited;
     });
   }

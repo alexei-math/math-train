@@ -3,7 +3,8 @@ import {ViewData, ScoreData, MathExpression, Visited} from '../modules/iface.mod
 import { getRandom } from '../modules/math.module';
 import {mkMathExp} from '../modules/string.module';
 import {TimerTaskService} from '../services/timer-task.service';
-import {VisitedService} from '../services/visited.service';
+import {ApiServices} from '../services/api.services';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-groupz',
@@ -25,7 +26,7 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
   valueAnswerText = '';
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
   }
 
   ngOnInit(): void {
@@ -47,7 +48,9 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.setTask();
     this.timeTask.initTimer(15);
-    this.visited.getVisited('groupz').subscribe((visited: Visited) => {
+    this.api.getVisited('groupz')
+      .pipe(first())
+      .subscribe((visited: Visited) => {
       this.t = visited;
     });
   }

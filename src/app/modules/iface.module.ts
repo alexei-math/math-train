@@ -22,6 +22,11 @@ export class Visited {
   visited: number;
 }
 
+export class SimpleTask {
+  problemText: string;
+  answer: number;
+}
+
 export enum OperationType {Add, Subtract, Multiply, Divide}
 
 export enum TypeTask { MultTable = 1, GroupZ, RingZ, GroupQ1, RingQ, FieldQ, SquareEq}

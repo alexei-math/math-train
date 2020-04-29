@@ -2,7 +2,8 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, O
 import {ViewData, ScoreData, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
-import {VisitedService} from '../services/visited.service';
+import {ApiServices} from '../services/api.services';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-multtab',
@@ -12,17 +13,17 @@ import {VisitedService} from '../services/visited.service';
 export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('inputAns', {static: false}) inpAns: ElementRef;
-  @Output() changeTime: EventEmitter<string> = new EventEmitter<string>();
+  // @Output() changeTime: EventEmitter<string> = new EventEmitter<string>();
 
   viewMultiData: ViewData;
   scoreMultiData: ScoreData;
   numberTask = {firstNumber: 0, secondNumber: 0};
   ans = '';
   ansHints = {res: '', complete: ''};
-  timesVisitedPage: number;
+  subs: Subscription;
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
   }
 
   ngOnInit(): void {
@@ -42,9 +43,12 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.setTask();
     this.timeTask.initTimer(10);
-    this.visited.getVisited('multtab').subscribe( (visited: Visited) => {
+    this.subs = this.api.getVisited('multtab')
+      .pipe()
+      .subscribe( (visited: Visited) => {
     this.t = visited;
     });
+
 
   }
 

@@ -2,7 +2,8 @@ import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from
 import {GCD, getRandom, NumQ} from '../modules/math.module';
 import {OperationType, ScoreData, ViewData, Visited} from '../modules/iface.module';
 import {TimerTaskService} from '../services/timer-task.service';
-import {VisitedService} from '../services/visited.service';
+import {ApiServices} from '../services/api.services';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-groupqm',
@@ -47,7 +48,7 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private visited: VisitedService) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
     this.frac1 = new NumQ();
     this.frac2 = new NumQ();
     this.fracTemp = new NumQ();
@@ -56,7 +57,9 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.setTask();
     this.timeTask.initTimer(15);
-    this.visited.getVisited('groupqm').subscribe((visited: Visited) => {
+    this.api.getVisited('groupqm')
+      .pipe(first())
+      .subscribe((visited: Visited) => {
       this.t = visited;
     });
   }
