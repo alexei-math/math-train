@@ -10,10 +10,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Самое первое, что должен выучить ученик по математике - это таблицу умножения. На странице этого тренажера предлагается в случайном порядке 50 заданий по этой теме.
 
-## Build
+## Целые числа
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
+После изучения таблицы умножения, ученик должен освоить операции с целыми числами, которые включают в себя сложение, вычитание и умножение чисел с разными знаками. (Деление сюда не входит. Множество целых чисел не замкнуто относительно этой операции. Тренажеры по целым числам и отрабатывают основные математические навыки работы с такими числами.)
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
