@@ -8,7 +8,7 @@ import {Observable} from 'rxjs';
 })
 export class ApiServices {
 
-  //PHP_API_SERVER = 'http://alexei-math.ru';
+  // PHP_API_SERVER = 'http://alexei-math.ru';
    PHP_API_SERVER = 'http://localhost';
 
   constructor(private httpClient: HttpClient) {
