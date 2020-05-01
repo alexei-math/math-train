@@ -65,7 +65,9 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.nomInp.nativeElement.focus();
+    setTimeout(() => {
+      this.nomInp.nativeElement.focus();
+    });
   }
 
   ngOnDestroy(): void {

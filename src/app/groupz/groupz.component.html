@@ -4,13 +4,12 @@
   <div class="col-12" [ngStyle]="{
           textAlign: 'center'
         }">
-    <input
-      *ngIf="!viewGroupZData.inputDisabled && !timeTask.inputDisabled"
-      type="text"
-      (keyup.enter)="checkAnswer($event)"
-      [(ngModel)]="valueAnswerText"
-      placeholder="Ответ" #answerText><br />
-    <span style="font-size: 0.8rem; color: #777777" *ngIf="!viewGroupZData.inputDisabled"> Введите ответ и нажите Enter</span>
+    <form *ngIf="!viewGroupZData.inputDisabled && !timeTask.inputDisabled">
+      <mat-form-field>
+        <mat-label>Введите ответ и нажмите Enter</mat-label>
+        <input matInput style="text-align: center" [(ngModel)]="valueAnswerText" (keyup.enter)="checkAnswer($event)" name="answer" #answerText>
+      </mat-form-field>
+    </form>
     <p [ngStyle]="{
             color: isAnswerRight ? 'green' : 'red'
           }">{{answerRecense}}

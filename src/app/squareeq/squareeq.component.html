@@ -6,20 +6,30 @@
           display: (viewSqEqData.inputDisabled || timeTask.inputDisabled) ? 'none' : 'block'
         }">
     x<sub>1</sub> =
-    <input
-      type="text"
-      size="4"
-      [(ngModel)]="inputsAns.X1"
-      placeholder="x1"
-      #inpXTxt
-    >
-    x<sub>2</sub> =
-    <input
-      type="text"
-      size="4"
-      [(ngModel)]="inputsAns.X2"
-      placeholder="x2"
-    >
+    <mat-form-field style="width: 5rem;">
+      <mat-label>Первый корень</mat-label>
+      <input
+        matInput
+        [(ngModel)]="inputsAns.X1"
+        name="answer"
+        style="text-align: center"
+        (keyup.enter)="onX1Enter()"
+        #inpX1
+      >
+    </mat-form-field>
+    &nbsp;&nbsp;
+        x<sub>2</sub> =
+    <mat-form-field style="width: 5rem;">
+      <mat-label>Второй корень</mat-label>
+      <input
+        matInput
+        [(ngModel)]="inputsAns.X2"
+        name="answer"
+        style="text-align: center"
+        (keyup.enter)="onX2Enter()"
+        #inpX2
+      >
+    </mat-form-field>
     <button class="mybtn" (click)="checkAnswer()" [ngStyle]="{
           marginTop: '0.3rem',
           display: (answerHints.res !== 'Неправильно!' || answerHints.m5 === 'Правильно!') ? 'inline-block' : 'none'
@@ -43,26 +53,36 @@
 <div class="row div-center" *ngIf="levelHint(1)">
   <div class="col">
    <p>Определите коэффициенты квадратного уравнения:</p>
-    a = <input
-      type="text"
-      size="4"
-      [(ngModel)]="inputsAns.A"
-      placeholder="a"
-    >
+    a =
+    <mat-form-field style="width: 3rem;">
+      <mat-label>a</mat-label>
+      <input
+        matInput
+        [(ngModel)]="inputsAns.A"
+        name="answerA"
+        style="text-align: center"
+      >
+    </mat-form-field>
     b =
-    <input
-      type="text"
-      size="4"
-      [(ngModel)]="inputsAns.B"
-      placeholder="b"
-    >
+    <mat-form-field style="width: 3rem;">
+      <mat-label>b</mat-label>
+        <input
+          matInput
+          [(ngModel)]="inputsAns.B"
+          name="answerB"
+          style="text-align: center"
+        >
+    </mat-form-field>
     c =
-    <input
-      type="text"
-      size="4"
-      [(ngModel)]="inputsAns.C"
-      placeholder="c"
-    >
+    <mat-form-field style="width: 3rem;">
+      <mat-label>c</mat-label>
+        <input
+          matInput
+          [(ngModel)]="inputsAns.C"
+          name="answerC"
+          style="text-align: center"
+        >
+    </mat-form-field>
     <button class="mybtn" (click)="checkABC()">Проверить</button>
     <p [ngStyle]="{
             textAlign: 'center',
@@ -78,12 +98,15 @@
       D = b^2 - 4 \cdot a \cdot c
       $$
     </div>
-    <input
-      type="text"
-      size="4"
-      [(ngModel)]="inputsAns.Disc"
-      placeholder="D"
-    >
+    <mat-form-field style="width: 5rem;">
+      <mat-label>Дискриминант</mat-label>
+      <input
+        matInput
+        [(ngModel)]="inputsAns.Disc"
+        name="answerDisc"
+        style="text-align: center"
+      >
+    </mat-form-field>
     <button class="mybtn" (click)="checkDisc()">Проверить</button>
     <p [ngStyle]="{
             textAlign: 'center',
@@ -96,12 +119,16 @@
     <p>Найдите корень из дискриминанта</p>
     <div mathjax>
       \( \sqrt D \) =
+
+      <mat-form-field style="width: 9rem;">
+        <mat-label>Корень из дискриминанта</mat-label>
         <input
-          type="text"
-          size="4"
+          matInput
           [(ngModel)]="inputsAns.SqDisc"
-          placeholder="Корень"
+          name="answerDisc"
+          style="text-align: center"
         >
+      </mat-form-field>
         <button class="mybtn" (click)="checkSqDisc()">Проверить</button>
     </div>
     <p [ngStyle]="{
@@ -115,12 +142,21 @@
       <p>Посчитайте первый корень</p>
        <div [mathjax]>
           \( x = \frac{{'{'}}- b - \sqrt D{{'}'}}{{'{'}}2 a{{'}'}} \) =
-          <input
-            type="text"
-            size="4"
-            [(ngModel)]="inputsAns.X1new"
-            placeholder="x1"
-          >
+         <mat-form-field style="width: 3rem;">
+           <mat-label>x1</mat-label>
+           <input
+             matInput
+             [(ngModel)]="inputsAns.X1new"
+             name="answerX1new"
+             style="text-align: center"
+           >
+         </mat-form-field>
+<!--          <input-->
+<!--            type="text"-->
+<!--            size="4"-->
+<!--            [(ngModel)]="inputsAns.X1new"-->
+<!--            placeholder="x1"-->
+<!--          >-->
           <button class="mybtn" (click)="checkX1new()">Проверить</button>
        </div>
           <p [ngStyle]="{
@@ -134,12 +170,21 @@
     <p>Посчитайте второй корень</p>
     <div [mathjax]>
       \( x = \frac{{'{'}}- b + \sqrt D{{'}'}}{{'{'}}2 a{{'}'}} \) =
-      <input
-        type="text"
-        size="4"
-        [(ngModel)]="inputsAns.X2new"
-        placeholder="x2"
-      >
+      <mat-form-field style="width: 3rem;">
+        <mat-label>x2</mat-label>
+        <input
+          matInput
+          [(ngModel)]="inputsAns.X2new"
+          name="answerX2new"
+          style="text-align: center"
+        >
+      </mat-form-field>
+<!--      <input-->
+<!--        type="text"-->
+<!--        size="4"-->
+<!--        [(ngModel)]="inputsAns.X2new"-->
+<!--        placeholder="x2"-->
+<!--      >-->
       <button class="mybtn" (click)="checkX2new()">Проверить</button>
     </div>
     <p [ngStyle]="{
@@ -150,7 +195,7 @@
 </div>
 <div class="row div-center" *ngIf="levelHint(6)">
   <div class="col">
-    <p style="color: 'green'">Все корни найдены верно! Введите их в поля x<sub>1</sub> и x<sub>2</sub> под заданием
+    <p style="color: green">Все корни найдены верно! Введите их в поля x<sub>1</sub> и x<sub>2</sub> под заданием
       в верху страницы, нажмите кнопку "Ответить"
       и переходите к следующему уравнению</p>
   </div>

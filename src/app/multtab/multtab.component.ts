@@ -53,11 +53,14 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.inpAns.nativeElement.focus();
+    setTimeout(() => {
+      this.inpAns.nativeElement.focus();
+    });
   }
 
   ngOnDestroy(): void {
     this.timeTask.stopTimer();
+    this.inpAns.nativeElement.blur();
   }
 
   setTask() {

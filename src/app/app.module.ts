@@ -24,6 +24,9 @@ import {TimerTaskService} from './services/timer-task.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ApiServices} from './services/api.services';
 import { LineareqComponent } from './lineareq/lineareq.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,10 @@ import { LineareqComponent } from './lineareq/lineareq.component';
       hostname: 'cdnjs.cloudflare.com'
     }),
     KatexModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [TimerTaskService, ApiServices],
   bootstrap: [AppComponent]

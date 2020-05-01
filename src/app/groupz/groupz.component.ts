@@ -56,7 +56,9 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.ansTxt.nativeElement.focus();
+    setTimeout(() => {
+      this.ansTxt.nativeElement.focus();
+    });
   }
 
   ngOnDestroy(): void {

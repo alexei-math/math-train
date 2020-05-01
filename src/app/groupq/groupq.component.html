@@ -6,13 +6,20 @@
       <table class="center">
         <tr>
           <td class="td-center">
-            <input
-              type="text"
-              class="small-input"
-              placeholder="числ"
-              (keyup.enter)="nomEnter()"
-              [(ngModel)]="fracA.nominA" #nominatorInput
-            ></td>
+            <form>
+              <mat-form-field class="small-input">
+                <mat-label>Числитель</mat-label>
+                <input
+                       style="border: none; text-align: center; padding: 0"
+                       matInput
+                       [(ngModel)]="fracA.nominA"
+                       (keyup.enter)="nomEnter()"
+                       name="answer"
+                       #nominatorInput
+                >
+              </mat-form-field>
+            </form>
+          </td>
           <td rowspan="3"><button class="valign mybtn" (click)="denEnter()">Ответить</button></td>
         </tr>
         <tr>
@@ -20,12 +27,19 @@
         </tr>
         <tr>
           <td class="td-center">
-            <input
-              type="text"
-              class="small-input"
-              placeholder="знам"
-              (keyup.enter)="denEnter()"
-              [(ngModel)]="fracA.denomA"  #denominatorInput></td>
+            <form>
+              <mat-form-field class="small-input">
+                <mat-label>Знаменатель</mat-label>
+                <input
+                       style="border: none; text-align: center; padding: 0"
+                       matInput
+                       [(ngModel)]="fracA.denomA"
+                       (keyup.enter)="denEnter()"
+                       name="answer"
+                       #denominatorInput>
+              </mat-form-field>
+            </form>
+          </td>
         </tr>
       </table>
     </div>

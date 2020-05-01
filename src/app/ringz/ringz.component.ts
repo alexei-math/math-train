@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MathExpression, ScoreData, ViewData, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {mkMathExp} from '../modules/string.module';
@@ -76,8 +76,10 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit() {
-    this.ansText.nativeElement.focus();
+   ngAfterViewInit() {
+    setTimeout(() => {
+      this.ansText.nativeElement.focus();
+    });
   }
 
   ngOnDestroy(): void {

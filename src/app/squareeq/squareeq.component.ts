@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ViewData, ScoreData, Visited} from '../modules/iface.module';
 import { getRandom, GCD} from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
@@ -22,9 +22,10 @@ interface RootsSE {
   styleUrls: ['./squareeq.component.css']
 })
 
-export class SquareeqComponent implements OnInit, OnDestroy {
+export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('inpXTxt', {static: true}) inpX1: ElementRef;
+  @ViewChild('inpX1', {static: false}) inpX1: ElementRef;
+  @ViewChild('inpX2', {static: false}) inpX2: ElementRef;
 
   viewSqEqData: ViewData;
   scoreSqEqData: ScoreData;
@@ -46,8 +47,8 @@ export class SquareeqComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.viewSqEqData = {
-      header: 'Уровень 1',
-      description: 'Решите квадратное уравнение',
+      header: 'Квадратные уравнения',
+      description: 'Уровень 1',
       problemText: '',
       inputDisabled: false
     };
@@ -66,9 +67,26 @@ export class SquareeqComponent implements OnInit, OnDestroy {
     });
   }
 
- ngOnDestroy(): void {
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.inpX1.nativeElement.focus();
+    });
+  }
+
+  ngOnDestroy(): void {
     this.timeTask.stopTimer();
- }
+  }
+
+  onX1Enter() {
+    this.inpX2.nativeElement.focus();
+  }
+
+  onX2Enter() {
+    this.checkAnswer();
+    if (!this.flagIncorrectAnswer) {
+      this.inpX1.nativeElement.focus();
+    }
+  }
 
   setTask(level: number) {
 
@@ -157,9 +175,6 @@ export class SquareeqComponent implements OnInit, OnDestroy {
 
       this.viewSqEqData.problemText = tempString;
     }
-
-    this.inpX1.nativeElement.focus();
-
   }
 
     checkAnswer() {
@@ -185,15 +200,15 @@ export class SquareeqComponent implements OnInit, OnDestroy {
         this.flagIncorrectAnswer = false;
         if (this.scoreSqEqData.solvedProblems >= this.pointsLevel.lvl1 && this.levelEq === 1) {
           this.levelEq = 2;
-          this.viewSqEqData.header = 'Уровень 2';
+          this.viewSqEqData.description = 'Уровень 2';
         }
         if (this.scoreSqEqData.solvedProblems >= this.pointsLevel.lvl2 && this.levelEq === 2) {
           this.levelEq = 3;
-          this.viewSqEqData.header = 'Уровень 3';
+          this.viewSqEqData.description = 'Уровень 3';
         }
         if (this.scoreSqEqData.solvedProblems >= this.pointsLevel.lvl3 && this.levelEq === 3) {
           this.levelEq = 4;
-          this.viewSqEqData.header = 'Уровень 4';
+          this.viewSqEqData.description = 'Уровень 4';
         }
         if (this.scoreSqEqData.givenProblems >= this.scoreSqEqData.totalProblems){
           this.answerHints.complete = 'Тренировка завершена!';
@@ -201,6 +216,7 @@ export class SquareeqComponent implements OnInit, OnDestroy {
           this.timeTask.stopTimer();
         } else {
           this.setTask(this.levelEq);
+          this.inpX1.nativeElement.focus();
         }
         this.answerHints.m1 = '';
         this.answerHints.m2 = '';

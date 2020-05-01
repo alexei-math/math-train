@@ -3,13 +3,12 @@
 <div class="row">
   <div class="col-12">
     <div *ngIf="!viewData.inputDisabled && !timeTask.inputDisabled" class="div-center">
-      <input
-        *ngIf="!viewData.inputDisabled"
-        type="text"
-        (keyup.enter)="checkAnswer()"
-        [(ngModel)]="answerText"
-        placeholder="Ответ" #ansText><br />
-      <span style="font-size: 0.8rem; color: #777777" *ngIf="!viewData.inputDisabled"> Введите ответ и нажите Enter</span>
+      <form>
+        <mat-form-field>
+          <mat-label>Введите ответ и нажмите Enter</mat-label>
+          <input matInput style="text-align: center" [(ngModel)]="answerText" (keyup.enter)="checkAnswer()" name="answer" #ansText>
+        </mat-form-field>
+      </form>
     </div>
     <div class="div-center">
       <p [ngStyle]="{

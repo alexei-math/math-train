@@ -55,7 +55,9 @@ export class LineareqComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.inputAns.nativeElement.focus();
+    setTimeout(() => {
+      this.inputAns.nativeElement.focus();
+    });
   }
 
   ngOnDestroy(): void {

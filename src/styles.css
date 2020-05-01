@@ -40,8 +40,11 @@ button.valign {
 }
 
 .small-input {
-  width: 2.8rem;
+  width: 4.2rem;
   margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  border: none;
 }
 
 .mybtn {
@@ -66,7 +69,10 @@ button.valign {
 .black-line {
   background-color: #000000;
   height: 2px;
-  margin-top: 0.3rem;
+  margin-top: 0.1rem;
   margin-bottom: 0.3rem;
-  width: 3.3rem;
+  width: 4.7rem;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

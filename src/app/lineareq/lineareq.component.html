@@ -2,9 +2,18 @@
 
 <div class="row">
   <div class="col-12 div-center" *ngIf="!timeTask.inputDisabled && !viewLinearData.inputDisabled">
-    <input type="text" size="16" [(ngModel)]="ans" (keyup.enter)="checkAns()" placeholder="Ответ" #inputAns>
-    <br />
-    <small class="small-hint">Введите ответ и нажмите Enter</small>
+    <form>
+      <mat-form-field>
+        <mat-label>Введите ответ и нажмите Enter</mat-label>
+        <input
+          matInput
+          [(ngModel)]="ans"
+          (keyup.enter)="checkAns()"
+          style="text-align: center"
+          name="answer" #inputAns
+        >
+      </mat-form-field>
+    </form>
   </div>
 </div>
 <div class="row">
