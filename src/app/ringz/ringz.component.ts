@@ -1,10 +1,11 @@
-import {AfterContentChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MathExpression, ScoreData, ViewData, Visited} from '../modules/iface.module';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MathExpression, ScoreData, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {mkMathExp} from '../modules/string.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {first} from 'rxjs/operators';
+import {AppFacade} from '../app.facade';
 
 @Component({
   selector: 'app-ringz',
@@ -15,7 +16,7 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('ansText', {static: false}) ansText: ElementRef;
 
-  viewData: ViewData;
+  inputDisabled = false;
   scoreRZData: ScoreData = {
     totalProblems: 27,
     givenProblems: 0,
@@ -41,17 +42,13 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
 
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
   }
 
   ngOnInit(): void {
     this.levelZ = 1;
-    this.viewData = {
-      header: 'Умножение и деление целых чисел',
-      description: 'Уровень ' + this.levelZ,
-      problemText: '',
-      inputDisabled: false
-    };
+    this.appFacade.mkHeadersView('ringz');
+    this.appFacade.setDescription('Уровень ' + this.levelZ);
     this.currentTask = {
       leftExp: 0,
       rightExp: 0,
@@ -127,7 +124,7 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
               this.currentTask.operation = this.mkPMOperation();
               break;
     }
-    this.viewData.problemText = mkMathExp(this.currentTask).replace(/\*/g, ' \\cdot ');
+    this.appFacade.setProblemText(mkMathExp(this.currentTask).replace(/\*/g, ' \\cdot '));
   }
 
   fillTempMathExp(o: MathExpression, op: string = '*'): void {
@@ -174,7 +171,7 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkAnswer() {
-    let modStr = this.viewData.problemText.replace(/\\cdot/g, '*');
+    let modStr = this.appFacade.getProblemText().replace(/\\cdot/g, '*');
     modStr = modStr.replace(':', '/');
     // tslint:disable-next-line:no-eval
     const res = eval(modStr);
@@ -196,11 +193,14 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scoreRZData.givenProblems += 1;
     if (this.scoreRZData.givenProblems >= this.scoreRZData.totalProblems) {
       this.answerRecense = 'Тренировка закончена!';
-      this.viewData.inputDisabled = true;
+      this.appFacade.setInputDisabled(true);
       this.timeTask.stopTimer();
     }
-    this.viewData.description = 'Уровень ' + this.levelZ;
+    this.appFacade.setDescription('Уровень ' + this.levelZ);
     this.ansText.nativeElement.focus();
   }
 
+  onInpDis(inputDisabled: boolean) {
+    this.inputDisabled = inputDisabled;
+  }
 }

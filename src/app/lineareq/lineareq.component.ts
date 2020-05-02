@@ -1,8 +1,9 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ScoreData, SimpleTask, ViewData, Visited} from '../modules/iface.module';
+import {ScoreData, SimpleTask, Visited} from '../modules/iface.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {first} from 'rxjs/operators';
+import {AppFacade} from '../app.facade';
 
 @Component({
   selector: 'app-lineareq',
@@ -13,7 +14,7 @@ export class LineareqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('inputAns', {static: false}) inputAns: ElementRef;
 
-  viewLinearData: ViewData;
+  inputDisabled = false;
   scoreLinearData: ScoreData;
   currentTask: SimpleTask = new SimpleTask();
   ans = '';
@@ -30,16 +31,11 @@ export class LineareqComponent implements OnInit, AfterViewInit, OnDestroy {
   };
    t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
       }
 
   ngOnInit(): void {
-    this.viewLinearData = {
-      header: 'Линейные уравнения',
-      description: '',
-      problemText: '',
-      inputDisabled: false
-    };
+    this.appFacade.mkHeadersView('lineareq');
     this.scoreLinearData = {
       totalProblems: 20,
       givenProblems: 0,
@@ -69,9 +65,9 @@ export class LineareqComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(first())
       .subscribe((task: SimpleTask) => {
       this.currentTask = task;
-      this.viewLinearData.problemText = this.currentTask.problemText;
-    });
-    this.viewLinearData.description = `Уровень ${this.lvl}`;
+      this.appFacade.setProblemText(this.currentTask.problemText);
+      });
+    this.appFacade.setDescription(`Уровень ${this.lvl}`);
   }
 
   checkAns() {
@@ -92,8 +88,12 @@ export class LineareqComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scoreLinearData.givenProblems += 1;
     if (this.scoreLinearData.givenProblems >= this.scoreLinearData.totalProblems) {
       this.ansHints.complete = 'Тренировка завершена!';
-      this.viewLinearData.inputDisabled = true;
+      this.appFacade.setInputDisabled(true);
       this.timeTask.stopTimer();
     }
+  }
+
+  onInpDis(inpDis: boolean) {
+    this.inputDisabled = inpDis;
   }
 }

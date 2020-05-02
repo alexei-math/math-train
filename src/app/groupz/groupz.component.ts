@@ -1,10 +1,11 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ViewData, ScoreData, MathExpression, Visited} from '../modules/iface.module';
+import {ScoreData, MathExpression, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {mkMathExp} from '../modules/string.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {first} from 'rxjs/operators';
+import {AppFacade} from '../app.facade';
 
 @Component({
   selector: 'app-groupz',
@@ -15,7 +16,7 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('answerText', {static: false}) ansTxt: ElementRef;
 
-  viewGroupZData: ViewData;
+  inputDisabled = false;
   scoreGroupZData: ScoreData;
   currentTask: MathExpression;
 
@@ -26,16 +27,12 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
   valueAnswerText = '';
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
   }
 
   ngOnInit(): void {
-    this.viewGroupZData = {
-      header: 'Сложение и вычитание целых чисел',
-      description: '',
-      problemText: '',
-      inputDisabled: false
-    };
+    this.appFacade.mkHeadersView('groupz');
+
     this.scoreGroupZData = {
       totalProblems: 50,
       givenProblems: 0,
@@ -81,7 +78,7 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.currentTask.operation = '-';
     }
-    this.viewGroupZData.problemText = mkMathExp(this.currentTask);
+    this.appFacade.setProblemText(mkMathExp(this.currentTask));
   }
 
   checkAnswer(event: KeyboardEvent) {
@@ -91,7 +88,7 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
     //                       (+this.currentTask.rightExp);
     // Здесь как нельзя лучше походит eval().
     // tslint:disable-next-line:no-eval
-    this.res = eval (this.viewGroupZData.problemText);
+    this.res = eval (this.appFacade.getProblemText());
     this.isAnswerRight = this.res === +this.tempStr;
     if (this.isAnswerRight) {
       this.scoreGroupZData.solvedProblems += 1;
@@ -106,8 +103,12 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scoreGroupZData.givenProblems += 1;
     if ( this.scoreGroupZData.givenProblems >= this.scoreGroupZData.totalProblems) {
       this.answerRecense = 'Тренировка закончена!';
-      this.viewGroupZData.inputDisabled = true;
+      this.appFacade.setInputDisabled(true);
       this.timeTask.stopTimer();
     }
+  }
+
+  onInpDis(inputDisabled: boolean) {
+    this.inputDisabled = inputDisabled;
   }
 }

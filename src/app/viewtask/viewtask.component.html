@@ -1,15 +1,15 @@
 <div class="row">
   <div class="col-12 view-header">
-    <h3>{{viewData.header}}</h3>
-    <h5>{{viewData.description}}</h5>
+    <h3>{{header}}</h3>
+    <h5>{{description}}</h5>
   </div>
 </div>
 <div class="row">
   <div class="col-12" [ngStyle]="{
       textAlign: 'center',
       fontSize: '2rem',
-      color: (viewData.inputDisabled) ? '#999' : '#000'
+      color: (inputDisabled) ? '#999' : '#000'
   }">
-    <ng-katex [equation]="viewData.problemText" [options]="options"></ng-katex>
+    <ng-katex [equation]="problemText" [options]="options"></ng-katex>
   </div>
 </div>

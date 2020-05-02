@@ -1,10 +1,10 @@
-<app-viewtask [viewData]="viewGroupZData"></app-viewtask>
+<app-viewtask (onInpDis)="onInpDis($event)"></app-viewtask>
 
 <div class="row">
   <div class="col-12" [ngStyle]="{
           textAlign: 'center'
         }">
-    <form *ngIf="!viewGroupZData.inputDisabled && !timeTask.inputDisabled">
+    <form *ngIf="!inputDisabled && !timeTask.inputDisabled">
       <mat-form-field>
         <mat-label>Введите ответ и нажмите Enter</mat-label>
         <input matInput style="text-align: center" [(ngModel)]="valueAnswerText" (keyup.enter)="checkAnswer($event)" name="answer" #answerText>

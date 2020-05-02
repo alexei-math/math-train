@@ -1,9 +1,9 @@
-<app-viewtask [viewData]="viewSqEqData"></app-viewtask>
+<app-viewtask (onInpDis)="onInpDis($event)"></app-viewtask>
 
 <div class="row">
   <div class="col" [ngStyle]="{
           textAlign: 'center',
-          display: (viewSqEqData.inputDisabled || timeTask.inputDisabled) ? 'none' : 'block'
+          display: (inputDisabled || timeTask.inputDisabled) ? 'none' : 'block'
         }">
     x<sub>1</sub> =
     <mat-form-field style="width: 5rem;">

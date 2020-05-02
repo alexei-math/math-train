@@ -1,9 +1,10 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ViewData, ScoreData, Visited} from '../modules/iface.module';
+import {ScoreData, Visited} from '../modules/iface.module';
 import { getRandom, GCD} from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {first} from 'rxjs/operators';
+import {AppFacade} from '../app.facade';
 
 interface CoeffSE {
   a: number;
@@ -27,8 +28,9 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('inpX1', {static: false}) inpX1: ElementRef;
   @ViewChild('inpX2', {static: false}) inpX2: ElementRef;
 
-  viewSqEqData: ViewData;
   scoreSqEqData: ScoreData;
+
+  inputDisabled = false;
 
   coeffSE: CoeffSE;
   rootsSE: RootsSE;
@@ -41,17 +43,15 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
   t: Visited = new Visited();
 
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
   }
 
   ngOnInit(): void {
 
-    this.viewSqEqData = {
-      header: 'Квадратные уравнения',
-      description: 'Уровень 1',
-      problemText: '',
-      inputDisabled: false
-    };
+    this.appFacade.mkHeadersView('squareeq');
+    this.appFacade.setDescription('Уровень 1');
+
+
     this.scoreSqEqData = {
       totalProblems: 12,
       givenProblems: 0,
@@ -86,6 +86,10 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.flagIncorrectAnswer) {
       this.inpX1.nativeElement.focus();
     }
+  }
+
+  onInpDis(inputDisabled: boolean) {
+    this.inputDisabled = inputDisabled;
   }
 
   setTask(level: number) {
@@ -136,7 +140,7 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
               this.coeffSE = {a: tempSign1 * ta / gcd, b: -tempSign1 * tb / gcd, c: tempSign1 * tc / gcd};
     }
 
-    this.viewSqEqData.inputDisabled = false;
+    this.appFacade.setInputDisabled(false);
     if (level <= 2) {
       let tmpStr = 'x^2';
       if (this.coeffSE.b > 0) {
@@ -150,7 +154,7 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
         tmpStr += this.coeffSE.c ;
       }
       tmpStr += '= 0';
-      this.viewSqEqData.problemText = tmpStr;
+      this.appFacade.setProblemText(tmpStr);
     }
     if (level > 2 ) {
       const perm = ['132', '213', '231', '312', '321'];
@@ -173,7 +177,7 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
       tempString = tempString.replace(/-1x/g, '-x');
       tempString = tempString.replace(/^\+/, '');
 
-      this.viewSqEqData.problemText = tempString;
+      this.appFacade.setProblemText(tempString);
     }
   }
 
@@ -200,19 +204,19 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
         this.flagIncorrectAnswer = false;
         if (this.scoreSqEqData.solvedProblems >= this.pointsLevel.lvl1 && this.levelEq === 1) {
           this.levelEq = 2;
-          this.viewSqEqData.description = 'Уровень 2';
+          this.appFacade.setDescription('Уровень 2');
         }
         if (this.scoreSqEqData.solvedProblems >= this.pointsLevel.lvl2 && this.levelEq === 2) {
           this.levelEq = 3;
-          this.viewSqEqData.description = 'Уровень 3';
+          this.appFacade.setDescription('Уровень 3');
         }
         if (this.scoreSqEqData.solvedProblems >= this.pointsLevel.lvl3 && this.levelEq === 3) {
           this.levelEq = 4;
-          this.viewSqEqData.description = 'Уровень 4';
+          this.appFacade.setDescription('Уровень 4');
         }
         if (this.scoreSqEqData.givenProblems >= this.scoreSqEqData.totalProblems){
           this.answerHints.complete = 'Тренировка завершена!';
-          this.viewSqEqData.inputDisabled = true;
+          this.appFacade.setInputDisabled(true);
           this.timeTask.stopTimer();
         } else {
           this.setTask(this.levelEq);

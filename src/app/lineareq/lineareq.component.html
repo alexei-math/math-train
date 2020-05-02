@@ -1,7 +1,7 @@
-<app-viewtask [viewData]="viewLinearData"></app-viewtask>
+<app-viewtask (onInpDis)="onInpDis($event)"></app-viewtask>
 
 <div class="row">
-  <div class="col-12 div-center" *ngIf="!timeTask.inputDisabled && !viewLinearData.inputDisabled">
+  <div class="col-12 div-center" *ngIf="!timeTask.inputDisabled && !inputDisabled">
     <form>
       <mat-form-field>
         <mat-label>Введите ответ и нажмите Enter</mat-label>

@@ -1,8 +1,8 @@
-<app-viewtask [viewData]="viewData"></app-viewtask>
+<app-viewtask (onInpDis)="onInpDis($event)"></app-viewtask>
 
 <div class="row">
   <div class="col-12" >
-    <div  *ngIf="!viewData.inputDisabled && !timeTask.inputDisabled">
+    <div  *ngIf="!inputDisabled && !timeTask.inputDisabled">
       <table class="center">
         <tr>
           <td class="td-center">
@@ -19,13 +19,6 @@
                 >
               </mat-form-field>
             </form>
-<!--            <input-->
-<!--              type="text"-->
-<!--              class="small-input"-->
-<!--              placeholder="числ"-->
-<!--              (keyup.enter)="nomEnter()"-->
-<!--              [(ngModel)]="fracAns.nominAns" #nominatorInput-->
-<!--            >-->
           </td>
           <td rowspan="3"><button class="valign mybtn" (click)="denEnter()">Ответить</button></td>
         </tr>

@@ -1,9 +1,10 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {ViewData, ScoreData, Visited} from '../modules/iface.module';
+import {ScoreData, Visited} from '../modules/iface.module';
 import { getRandom } from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {Subscription} from 'rxjs';
+import {AppFacade} from '../app.facade';
 
 @Component({
   selector: 'app-multtab',
@@ -13,9 +14,8 @@ import {Subscription} from 'rxjs';
 export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('inputAns', {static: false}) inpAns: ElementRef;
-  // @Output() changeTime: EventEmitter<string> = new EventEmitter<string>();
 
-  viewMultiData: ViewData;
+  inputDisabled = false;
   scoreMultiData: ScoreData;
   numberTask = {firstNumber: 0, secondNumber: 0};
   ans = '';
@@ -23,17 +23,12 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   subs: Subscription;
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
   }
 
   ngOnInit(): void {
 
-    this.viewMultiData = {
-      header: 'Таблица умножения',
-      description: '',
-      problemText: '' ,
-      inputDisabled: false
-      };
+    this.appFacade.mkHeadersView('multtab');
 
     this.scoreMultiData = {
       totalProblems: 50,
@@ -49,7 +44,7 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
     this.t = visited;
     });
 
-
+    console.log(this.appFacade.getTrainerByName('multtab'));
   }
 
   ngAfterViewInit(): void {
@@ -66,7 +61,7 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   setTask() {
     this.numberTask.firstNumber = getRandom(2, 9);
     this.numberTask.secondNumber = getRandom(2, 9);
-    this.viewMultiData.problemText = this.numberTask.firstNumber + ' \\times ' + this.numberTask.secondNumber;
+    this.appFacade.setProblemText(this.numberTask.firstNumber + ' \\times ' + this.numberTask.secondNumber);
   }
 
   checkAns() {
@@ -83,8 +78,12 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scoreMultiData.givenProblems += 1;
     if (this.scoreMultiData.givenProblems >= this.scoreMultiData.totalProblems) {
       this.ansHints.complete = 'Тренировка завершена!';
-      this.viewMultiData.inputDisabled = true;
+      this.appFacade.setInputDisabled(true);
       this.timeTask.stopTimer();
     }
+  }
+
+  onInpDis(inputDisabled: boolean) {
+    this.inputDisabled = inputDisabled;
   }
 }

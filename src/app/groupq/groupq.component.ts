@@ -1,9 +1,10 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {OperationType, ScoreData, ViewData, Visited} from '../modules/iface.module';
+import {OperationType, ScoreData, Visited} from '../modules/iface.module';
 import {GCD, getRandom, NumQ} from '../modules/math.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {first} from 'rxjs/operators';
+import {AppFacade} from '../app.facade';
 
 @Component({
   selector: 'app-groupq',
@@ -16,7 +17,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
    @ViewChild('denominatorInput', {static: false}) denomInp: ElementRef;
    @Output() changeTime: EventEmitter<string> = new EventEmitter<string>();
 
-  viewData: ViewData;
+  inputDisabled = false;
   scoreGQData: ScoreData = {
     totalProblems: 40,
     solvedProblems: 0,
@@ -48,7 +49,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
     this.frac1 = new NumQ();
     this.frac2 = new NumQ();
     this.fract = new NumQ();
@@ -56,12 +57,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.viewData = {
-      header: 'Сложение и дробей',
-      description: 'Найдите значение выражения',
-      problemText: '',
-      inputDisabled: false
-    };
+    this.appFacade.mkHeadersView('groupq');
 
     this.levelQ = 1;
     this.isAnswerRight = false;
@@ -213,7 +209,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-    this.viewData.description = 'Уровень ' + this.levelQ;
+    this.appFacade.setDescription('Уровень ' + this.levelQ);
     this.setFracs(nominator1, denominator1, nominator2, denominator2);
     this.mkProblemText(this.operation);
   }
@@ -248,7 +244,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.scoreGQData.givenProblems += 1;
     if (this.scoreGQData.givenProblems >= this.scoreGQData.totalProblems) {
-      this.viewData.inputDisabled = true;
+      this.appFacade.setInputDisabled(true);
       this.answerComplete = 'Тренировка завершена!';
       this.timeTask.stopTimer();
     }
@@ -291,6 +287,10 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
     tmpStr += '\\frac{' + this.frac1.nom + '}{' + this.frac1.denom + '}';
     tmpStr += op;
     tmpStr += '\\frac{' + this.frac2.nom + '}{' + this.frac2.denom + '}';
-    this.viewData.problemText = tmpStr;
+    this.appFacade.setProblemText(tmpStr);
+  }
+
+  onInpDis(inputDisabled: boolean) {
+    this.inputDisabled = inputDisabled;
   }
 }

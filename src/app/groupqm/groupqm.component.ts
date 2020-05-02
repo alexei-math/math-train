@@ -1,9 +1,10 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {GCD, getRandom, NumQ} from '../modules/math.module';
-import {OperationType, ScoreData, ViewData, Visited} from '../modules/iface.module';
+import {OperationType, ScoreData, Visited} from '../modules/iface.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {first} from 'rxjs/operators';
+import {AppFacade} from '../app.facade';
 
 @Component({
   selector: 'app-groupqm',
@@ -15,18 +16,14 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('nominatorInput') nomInp: ElementRef;
   @ViewChild('denominatorInput') denInp: ElementRef;
 
+  inputDisabled = false;
+
   frac1: NumQ;
   frac2: NumQ;
   fracTemp: NumQ;
   fracAns = {
     nominAns: '',
     denomAns: ''
-  };
-  viewData: ViewData = {
-    header: 'Умножение и деление дробей',
-    description: 'Уровень 1',
-    problemText: '',
-    inputDisabled: false
   };
   scoreData: ScoreData = {
     totalProblems: 20,
@@ -48,13 +45,14 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   t: Visited = new Visited();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices) {
+  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
     this.frac1 = new NumQ();
     this.frac2 = new NumQ();
     this.fracTemp = new NumQ();
   }
 
   ngOnInit(): void {
+    this.appFacade.mkHeadersView('groupqm');
     this.setTask();
     this.timeTask.initTimer(15);
     this.api.getVisited('groupqm')
@@ -175,8 +173,9 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
               }
               break;
     }
-    this.viewData.problemText = '\\frac{' + this.frac1.nom + '}{' + this.frac1.denom + '}'
-      + op + '\\frac{' + this.frac2.nom + '}{' + this.frac2.denom + '}';
+
+    this.appFacade.setProblemText('\\frac{' + this.frac1.nom + '}{' + this.frac1.denom + '}'
+                                   + op + '\\frac{' + this.frac2.nom + '}{' + this.frac2.denom + '}');
     smallNumberArray.length = bigNumberArray.length = 0;
   }
 
@@ -218,10 +217,14 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (this.scoreData.givenProblems >= this.scoreData.totalProblems) {
       this.answerComplete = 'Тренировка закончена';
-      this.viewData.inputDisabled = true;
+      this.appFacade.setInputDisabled(true);
       this.timeTask.stopTimer();
     }
     this.fracAns.nominAns = this.fracAns.denomAns = '';
-    this.viewData.description = `Уровень ${this.level}`;
+    this.appFacade.setDescription(`Уровень ${this.level}`);
+  }
+
+  onInpDis(inputDisabled: boolean) {
+    this.inputDisabled = inputDisabled;
   }
 }
