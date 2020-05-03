@@ -27,6 +27,16 @@ export class SimpleTask {
   answer: number;
 }
 
+export class QN {
+  nominator: number;
+  denominator: number;
+}
+
+export class QTask {
+  problemText: string;
+  answer: QN;
+}
+
 export enum OperationType {Add, Subtract, Multiply, Divide}
 
 export enum TypeTask { MultTable = 1, GroupZ, RingZ, GroupQ1, RingQ, FieldQ, SquareEq}

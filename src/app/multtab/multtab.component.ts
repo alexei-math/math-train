@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {ScoreData, Visited} from '../modules/iface.module';
-import { getRandom } from '../modules/math.module';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ScoreData, SimpleTask, Visited} from '../modules/iface.module';
 import {TimerTaskService} from '../services/timer-task.service';
 import {ApiServices} from '../services/api.services';
 import {Subscription} from 'rxjs';
 import {AppFacade} from '../app.facade';
+import {first} from 'rxjs/operators';
 
 @Component({
   selector: 'app-multtab',
@@ -17,11 +17,11 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
 
   inputDisabled = false;
   scoreMultiData: ScoreData;
-  numberTask = {firstNumber: 0, secondNumber: 0};
   ans = '';
   ansHints = {res: '', complete: ''};
   subs: Subscription;
   t: Visited = new Visited();
+  currentTask: SimpleTask = new SimpleTask();
 
   constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
   }
@@ -43,8 +43,6 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe( (visited: Visited) => {
     this.t = visited;
     });
-
-    console.log(this.appFacade.getTrainerByName('multtab'));
   }
 
   ngAfterViewInit(): void {
@@ -55,20 +53,22 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.timeTask.stopTimer();
-    this.inpAns.nativeElement.blur();
   }
 
   setTask() {
-    this.numberTask.firstNumber = getRandom(2, 9);
-    this.numberTask.secondNumber = getRandom(2, 9);
-    this.appFacade.setProblemText(this.numberTask.firstNumber + ' \\times ' + this.numberTask.secondNumber);
+    this.api.getMultiplyTable()
+      .pipe(first())
+      .subscribe((task: SimpleTask) => {
+        this.currentTask = task;
+        this.appFacade.setProblemText(this.currentTask.problemText);
+      });
   }
 
   checkAns() {
-    if (Number(this.ans) === this.numberTask.firstNumber * this.numberTask.secondNumber) {
+    if (+this.ans === this.currentTask.answer){
       this.ansHints.res = 'Правильно!';
       this.scoreMultiData.solvedProblems += 1;
-      if (this.scoreMultiData.givenProblems < this.scoreMultiData.totalProblems) {
+      if (this.scoreMultiData.givenProblems < this.scoreMultiData.totalProblems - 1) {
         this.setTask();
       }
     } else {
