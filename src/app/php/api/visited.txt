@@ -1,0 +1,12 @@
+multtab:3
+lineareq:15
+ringz:4
+lineareq:15
+groupz:6
+lineareq:15
+groupq:3
+lineareq:15
+groupqm:2
+lineareq:15
+squareeq:6
+lineareq:15

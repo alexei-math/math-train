@@ -65,6 +65,8 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   checkAns() {
+    this.ans = '';
+    this.scoreMultiData.givenProblems += 1;
     if (+this.ans === this.currentTask.answer){
       this.ansHints.res = 'Правильно!';
       this.scoreMultiData.solvedProblems += 1;
@@ -74,8 +76,7 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.ansHints.res = 'Неправильно!';
     }
-    this.ans = '';
-    this.scoreMultiData.givenProblems += 1;
+
     if (this.scoreMultiData.givenProblems >= this.scoreMultiData.totalProblems) {
       this.ansHints.complete = 'Тренировка завершена!';
       this.appFacade.setInputDisabled(true);
