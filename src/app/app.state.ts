@@ -61,6 +61,7 @@ const trainers: Trainer[] = [
 export class AppState {
 
   private readonly currentTrain$ = new BehaviorSubject<string>('');
+  private readonly isTaskPage$ = new BehaviorSubject<boolean>(false);
 
   private readonly problemText$ = new BehaviorSubject<string>('');
   private readonly header$ = new BehaviorSubject<string>('');
@@ -74,6 +75,10 @@ export class AppState {
 
   getCurrentTrain$(): Observable<string> {
     return this.currentTrain$.asObservable();
+  }
+
+  getIsTaskPage$(): Observable<boolean> {
+    return this.isTaskPage$.asObservable();
   }
 
   getProblemText$(): Observable<string> {
@@ -110,6 +115,10 @@ export class AppState {
 
   setCurrentTrain(train: string): void {
     this.currentTrain$.next(train);
+  }
+
+  setIsTaskPage(task: boolean) {
+    this.isTaskPage$.next(task);
   }
 
   setProblemText(problemText: string): void {

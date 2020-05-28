@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TimerTaskService} from '../services/timer-task.service';
+import {AppFacade} from '../app.facade';
 
 @Component({
   selector: 'app-menu',
@@ -9,8 +10,17 @@ import {TimerTaskService} from '../services/timer-task.service';
 
 export class MenuComponent implements OnInit {
 
-  constructor(public timeTask: TimerTaskService) { }
+  isTaskPage: boolean;
+
+  constructor(
+    public timeTask: TimerTaskService,
+    private appFacade: AppFacade
+  ) {}
 
   ngOnInit(): void {
+    this.appFacade.getIsTaskPage$()
+      .subscribe(isTask => {
+        this.isTaskPage = isTask;
+      });
   }
 }

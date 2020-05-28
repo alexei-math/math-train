@@ -31,6 +31,7 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.appFacade.setIsTaskPage(true);
     this.appFacade.mkHeadersView('groupz');
 
     this.scoreGroupZData = {

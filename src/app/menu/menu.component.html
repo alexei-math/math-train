@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="isTaskPage">
   <div class="col-12">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -43,9 +43,9 @@
   </div>
 </div>
 <div class="row task-view">
-    <div class="col-md-10">
+    <div [class.col-md-10]="isTaskPage" [class.col-12]="!isTaskPage">
       <router-outlet></router-outlet>
     </div>
 
-  <div class="col-md-2 time-view"><p>Время выполнения:<br />{{timeTask.timeStr}}</p></div>
+  <div class="col-md-2 time-view" *ngIf="isTaskPage"><p>Время выполнения:<br />{{timeTask.timeStr}}</p></div>
 </div>

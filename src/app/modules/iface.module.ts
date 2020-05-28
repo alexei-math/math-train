@@ -37,6 +37,29 @@ export class QTask {
   answer: QN;
 }
 
+export class User {
+  iss: string;
+  aud: string;
+  iat: string;
+  nbf: string;
+  exp: string;
+  type: string;
+  data: {
+    id: string;
+    logname: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    role: string;
+  };
+}
+
+export class UserJWT {
+  message: string;
+  jwt: string;
+  jwt_r: string;
+}
+
 export enum OperationType {Add, Subtract, Multiply, Divide}
 
 export enum TypeTask { MultTable = 1, GroupZ, RingZ, GroupQ1, RingQ, FieldQ, SquareEq}

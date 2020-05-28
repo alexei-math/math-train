@@ -46,6 +46,7 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.appFacade.setIsTaskPage(true);
     this.levelZ = 1;
     this.appFacade.mkHeadersView('ringz');
     this.appFacade.setDescription('Уровень ' + this.levelZ);

@@ -23,12 +23,16 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   t: Visited = new Visited();
   currentTask: SimpleTask = new SimpleTask();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
-  }
+  constructor(
+    public timeTask: TimerTaskService,
+    private api: ApiServices,
+    private appFacade: AppFacade
+  ) {}
 
   ngOnInit(): void {
 
     this.appFacade.mkHeadersView('multtab');
+    this.appFacade.setIsTaskPage(true);
 
     this.scoreMultiData = {
       totalProblems: 50,
@@ -39,16 +43,16 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setTask();
     this.timeTask.initTimer(10);
     this.subs = this.api.getVisited('multtab')
-      .pipe()
+      .pipe(first())
       .subscribe( (visited: Visited) => {
     this.t = visited;
     });
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.inpAns.nativeElement.focus();
-    });
+    });*/
   }
 
   ngOnDestroy(): void {

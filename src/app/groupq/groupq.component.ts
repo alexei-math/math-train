@@ -44,11 +44,15 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
   t: Visited = new Visited();
   currentTask: QTask = new QTask();
 
-  constructor(public timeTask: TimerTaskService, private api: ApiServices, private appFacade: AppFacade) {
-    }
+  constructor(
+    public timeTask: TimerTaskService,
+    private api: ApiServices,
+    private appFacade: AppFacade
+  ) {}
 
   ngOnInit(): void {
 
+    this.appFacade.setIsTaskPage(true);
     this.appFacade.mkHeadersView('groupq');
 
     this.levelQ = 1;

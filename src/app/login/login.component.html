@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 div-center" >
+    <mat-card style="height: 22rem">
+      <mat-card-header style="display: flex; justify-content: center">
+        <mat-card-title>
+          Вход на сайт
+        </mat-card-title>
+        <mat-card-subtitle>
+          Для тестового входа<br />
+          логин: test<br />
+          пароль: 123456
+        </mat-card-subtitle>
+      </mat-card-header>
+      <form [formGroup]="form" style="height: 100%">
+      <mat-card-content>
+
+          <mat-form-field>
+            <mat-label>Логин:</mat-label>
+            <input matInput name="login" formControlName="login">
+            <mat-hint>Не менее 4 символа</mat-hint>
+            <mat-error
+              *ngIf="form.get('login').invalid
+                 && form.get('login').touched
+                 && form.get('login').errors.required"
+            >
+              Логин не может быть пустым
+            </mat-error>
+            <mat-error
+              *ngIf="form.get('login').invalid
+                && form.get('login').touched
+                && form.get('login').errors.minlength"
+            >
+              Введите не менее {{form.get('login').errors.minlength.requiredLength}} символов
+            </mat-error>
+          </mat-form-field><br />
+
+          <mat-form-field style="margin-top: 1.2rem">
+            <mat-label>Пароль:</mat-label>
+            <input matInput name="password" formControlName="password" type="password"><br />
+            <mat-hint>Не менее 6 символов</mat-hint>
+            <mat-error
+              *ngIf="form.get('password').invalid
+                && form.get('password').touched
+                && form.get('password').errors.required"
+            >
+              Пароль не может быть пустым
+            </mat-error>
+            <mat-error
+              *ngIf="form.get('password').invalid
+                && form.get('password').touched
+                && form.get('password').errors.minlength"
+            >
+              Введите не менее {{form.get('password').errors.minlength.requiredLength}} символов
+            </mat-error>
+          </mat-form-field><br />
+        <button style="margin-top: 2rem"
+          mat-raised-button
+          color="primary"
+          name="submit"
+          [disabled]="form.invalid"
+          (click)="login()"
+        >Войти</button>
+      </mat-card-content>
+
+      </form>
+    </mat-card>
+  </div>
+  <div class="col-md-4"></div>
+</div>

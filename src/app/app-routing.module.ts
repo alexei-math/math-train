@@ -8,6 +8,7 @@ import {SquareeqComponent} from './squareeq/squareeq.component';
 import {GroupqComponent} from './groupq/groupq.component';
 import {GroupqmComponent} from './groupqm/groupqm.component';
 import {LineareqComponent} from './lineareq/lineareq.component';
+import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       {path: 'groupq', component: GroupqComponent},
       {path: 'groupqm', component: GroupqmComponent},
       {path: 'lineareq', component: LineareqComponent},
+      {path: 'login', component: LoginComponent},
       {path: '**', redirectTo: '/multtab'}
     ]
   }

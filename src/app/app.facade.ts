@@ -30,6 +30,10 @@ export class AppFacade {
     return this.appState.getInputDisabled$();
   }
 
+  getIsTaskPage$(): Observable<boolean> {
+    return this.appState.getIsTaskPage$();
+  }
+
   setHeader(header: string): void {
     // const h = header;
     this.appState.setHeader(header);
@@ -45,6 +49,10 @@ export class AppFacade {
 
   setInputDisabled(inputDisabled: boolean) {
     this.appState.setInputDisabled(inputDisabled);
+  }
+
+  setIsTaskPage(task: boolean) {
+    this.appState.setIsTaskPage(task);
   }
 
   getTrainerByName(name: string): Trainer {
