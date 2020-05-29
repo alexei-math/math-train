@@ -35,7 +35,6 @@ export class LineareqComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
   ngOnInit(): void {
-    this.appFacade.setIsTaskPage(true);
     this.appFacade.mkHeadersView('lineareq');
     this.scoreLinearData = {
       totalProblems: 20,
@@ -53,7 +52,7 @@ export class LineareqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.inputAns.nativeElement.focus();
+      this.appFacade.setIsTaskPage(true);
     });
   }
 

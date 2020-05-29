@@ -52,7 +52,6 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.appFacade.setIsTaskPage(true);
     this.appFacade.mkHeadersView('groupq');
 
     this.levelQ = 1;
@@ -68,7 +67,7 @@ export class GroupqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.nomInp.nativeElement.focus();
+      this.appFacade.setIsTaskPage(true);
     });
   }
 

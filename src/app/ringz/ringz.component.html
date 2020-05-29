@@ -6,7 +6,12 @@
       <form>
         <mat-form-field>
           <mat-label>Введите ответ и нажмите Enter</mat-label>
-          <input matInput style="text-align: center" [(ngModel)]="answerText" (keyup.enter)="checkAnswer()" name="answer" #ansText>
+          <input matInput style="text-align: center"
+                 [(ngModel)]="answerText"
+                 (keyup.enter)="checkAnswer()"
+                 name="answer"
+                 appAutofocus
+                 #ansText>
         </mat-form-field>
       </form>
     </div>

@@ -46,7 +46,7 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.appFacade.setIsTaskPage(true);
+
     this.levelZ = 1;
     this.appFacade.mkHeadersView('ringz');
     this.appFacade.setDescription('Уровень ' + this.levelZ);
@@ -74,10 +74,10 @@ export class RingzComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-   ngAfterViewInit() {
-    setTimeout(() => {
-      this.ansText.nativeElement.focus();
-    });
+  ngAfterViewInit() {
+     setTimeout(() => {
+       this.appFacade.setIsTaskPage(true);
+     });
   }
 
   ngOnDestroy(): void {

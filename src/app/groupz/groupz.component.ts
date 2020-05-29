@@ -31,7 +31,6 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.appFacade.setIsTaskPage(true);
     this.appFacade.mkHeadersView('groupz');
 
     this.scoreGroupZData = {
@@ -55,7 +54,7 @@ export class GroupzComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.ansTxt.nativeElement.focus();
+      this.appFacade.setIsTaskPage(true);
     });
   }
 

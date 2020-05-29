@@ -7,7 +7,12 @@
     <form *ngIf="!inputDisabled && !timeTask.inputDisabled">
       <mat-form-field>
         <mat-label>Введите ответ и нажмите Enter</mat-label>
-        <input matInput style="text-align: center" [(ngModel)]="valueAnswerText" (keyup.enter)="checkAnswer($event)" name="answer" #answerText>
+        <input matInput style="text-align: center" [(ngModel)]="valueAnswerText"
+               (keyup.enter)="checkAnswer($event)"
+               name="answer"
+               appAutofocus
+               #answerText
+        >
       </mat-form-field>
     </form>
     <p [ngStyle]="{

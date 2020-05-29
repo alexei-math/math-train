@@ -52,7 +52,6 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.appFacade.setIsTaskPage(true);
     this.appFacade.mkHeadersView('groupqm');
     this.setTask();
     this.timeTask.initTimer(15);
@@ -65,7 +64,7 @@ export class GroupqmComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.nomInp.nativeElement.focus();
+      this.appFacade.setIsTaskPage(true);
     });
   }
 

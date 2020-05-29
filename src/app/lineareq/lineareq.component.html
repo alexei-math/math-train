@@ -10,7 +10,9 @@
           [(ngModel)]="ans"
           (keyup.enter)="checkAns()"
           style="text-align: center"
-          name="answer" #inputAns
+          name="answer"
+          appAutofocus
+          #inputAns
         >
       </mat-form-field>
     </form>

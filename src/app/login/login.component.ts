@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AppFacade} from '../app.facade';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication.service';
@@ -9,7 +9,7 @@ import {first} from 'rxjs/operators';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, AfterViewInit{
 
   form: FormGroup;
 
@@ -20,12 +20,18 @@ export class LoginComponent implements OnInit{
   ) {
     this.form = this.fb.group({
       login: ['', [Validators.required, Validators.minLength(4)]],
-      password: ['', [Validators.required, Validators.minLength(5)]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   ngOnInit() {
-    this.appFacade.setIsTaskPage(false);
+   // this.appFacade.setIsTaskPage(false);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.appFacade.setIsTaskPage(false);
+    });
   }
 
 

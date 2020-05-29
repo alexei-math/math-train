@@ -48,7 +48,6 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.appFacade.setIsTaskPage(true);
     this.appFacade.mkHeadersView('squareeq');
     this.appFacade.setDescription('Уровень 1');
 
@@ -70,7 +69,7 @@ export class SquareeqComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.inpX1.nativeElement.focus();
+      this.appFacade.setIsTaskPage(true);
     });
   }
 

@@ -32,7 +32,7 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
 
     this.appFacade.mkHeadersView('multtab');
-    this.appFacade.setIsTaskPage(true);
+
 
     this.scoreMultiData = {
       totalProblems: 50,
@@ -50,9 +50,9 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    /*setTimeout(() => {
-      this.inpAns.nativeElement.focus();
-    });*/
+    setTimeout(() => {
+      this.appFacade.setIsTaskPage(true);
+    });
   }
 
   ngOnDestroy(): void {
