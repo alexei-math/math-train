@@ -3,6 +3,8 @@ import {AppFacade} from '../app.facade';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthenticationService} from '../services/authentication.service';
 import {first} from 'rxjs/operators';
+import {User} from '../modules/iface.module';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,20 +14,28 @@ import {first} from 'rxjs/operators';
 export class LoginComponent implements OnInit, AfterViewInit{
 
   form: FormGroup;
+  returnUrl: string;
 
   constructor(
     private appFacade: AppFacade,
     private fb: FormBuilder,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-    this.form = this.fb.group({
-      login: ['', [Validators.required, Validators.minLength(4)]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+
+    if (this.authenticationService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
 
   ngOnInit() {
-   // this.appFacade.setIsTaskPage(false);
+    this.form = this.fb.group({
+      login: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(5)]]
+    });
+
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   ngAfterViewInit() {
@@ -42,7 +52,10 @@ export class LoginComponent implements OnInit, AfterViewInit{
         .pipe(first())
         .subscribe(
           data => {
-            console.log(data);
+            this.router.navigate([this.returnUrl]);
+            console.log(this.appFacade.getCurrentUser().data.firstname,
+              this.appFacade.getCurrentUser().data.lastname,
+              +this.appFacade.getCurrentUser().exp - Math.round(new Date().getTime() / 1000));
           },
           error => {
             console.log(error);

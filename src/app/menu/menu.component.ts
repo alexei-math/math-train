@@ -23,4 +23,8 @@ export class MenuComponent implements OnInit {
         this.isTaskPage = isTask;
       });
   }
+
+  logout() {
+    this.appFacade.logout();
+  }
 }

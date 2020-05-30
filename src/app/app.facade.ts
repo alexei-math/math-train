@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {AppState, Trainer} from './app.state';
 import {Observable} from 'rxjs';
 import {ApiServices} from './services/api.services';
+import {User, UserJWT} from './modules/iface.module';
 
 
 @Injectable({providedIn: 'root'})
@@ -34,6 +35,18 @@ export class AppFacade {
     return this.appState.getIsTaskPage$();
   }
 
+  getCurrentUserJWT(): UserJWT {
+    return this.appState.getCurrentUserJWT();
+  }
+
+  getCurrentUserJWT$(): Observable<UserJWT> {
+    return this.appState.getCurrentUserJWT$();
+  }
+
+  getCurrentUser(): User {
+    return this.appState.getCurrentUser();
+  }
+
   setHeader(header: string): void {
     // const h = header;
     this.appState.setHeader(header);
@@ -55,6 +68,14 @@ export class AppFacade {
     this.appState.setIsTaskPage(task);
   }
 
+  setCurrentUserJWT(userJWT: UserJWT) {
+    this.appState.setCurrentUserJWT(userJWT);
+  }
+
+  setCurrentUser(user: User) {
+    this.appState.setCurrentUser(user);
+  }
+
   getTrainerByName(name: string): Trainer {
     return this.appState.getTrainersArray().find((v) => v.name === name);
   }
@@ -65,5 +86,10 @@ export class AppFacade {
     this.setDescription(T.description);
     this.setInputDisabled(false);
     this.appState.setCurrentTrain(name);
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+    this.setCurrentUserJWT(null);
   }
 }

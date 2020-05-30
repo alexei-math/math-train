@@ -1,5 +1,6 @@
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {User, UserJWT} from './modules/iface.module';
 
 export interface Answers {
   answers: number[];
@@ -62,6 +63,8 @@ export class AppState {
 
   private readonly currentTrain$ = new BehaviorSubject<string>('');
   private readonly isTaskPage$ = new BehaviorSubject<boolean>(false);
+  private readonly currentUserJWT$ = new BehaviorSubject<UserJWT>(null);
+  private readonly currentUser$ = new BehaviorSubject<User>(null);
 
   private readonly problemText$ = new BehaviorSubject<string>('');
   private readonly header$ = new BehaviorSubject<string>('');
@@ -75,6 +78,22 @@ export class AppState {
 
   getCurrentTrain$(): Observable<string> {
     return this.currentTrain$.asObservable();
+  }
+
+  getCurrentUserJWT$(): Observable<UserJWT> {
+    return this.currentUserJWT$.asObservable();
+  }
+
+  getCurrentUser$(): Observable<User> {
+    return this.currentUser$.asObservable();
+  }
+
+  getCurrentUserJWT(): UserJWT {
+    return this.currentUserJWT$.getValue();
+  }
+
+  getCurrentUser(): User {
+    return this.currentUser$.getValue();
   }
 
   getIsTaskPage$(): Observable<boolean> {
@@ -135,6 +154,14 @@ export class AppState {
 
   setInputDisabled(inputDisabled: boolean): void {
     this.inputDisabled$.next(inputDisabled);
+  }
+
+  setCurrentUserJWT(userJWT: UserJWT): void {
+    this.currentUserJWT$.next(userJWT);
+  }
+
+  setCurrentUser(user: User): void {
+    this.currentUser$.next(user);
   }
 
   setTotalProblems(totalProblems: number): void {

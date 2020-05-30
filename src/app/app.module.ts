@@ -21,7 +21,7 @@ import { GroupqmComponent } from './groupqm/groupqm.component';
 import {AppRoutingModule} from './app-routing.module';
 import {MenuDirective} from './directives/menu.directive';
 import {TimerTaskService} from './services/timer-task.service';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {ApiServices} from './services/api.services';
 import { LineareqComponent } from './lineareq/lineareq.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +31,7 @@ import {LoginComponent} from './login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {AutofocusDirective} from './directives/autofocus.directive';
+import {JwtInterceptor} from './services/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,11 @@ import {AutofocusDirective} from './directives/autofocus.directive';
     ReactiveFormsModule,
     MatButtonModule
   ],
-  providers: [TimerTaskService, ApiServices],
+  providers: [
+    TimerTaskService,
+    ApiServices,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

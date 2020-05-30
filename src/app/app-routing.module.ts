@@ -9,6 +9,7 @@ import {GroupqComponent} from './groupq/groupq.component';
 import {GroupqmComponent} from './groupqm/groupqm.component';
 import {LineareqComponent} from './lineareq/lineareq.component';
 import {LoginComponent} from './login/login.component';
+import {AuthGuard} from './services/authguard.service';
 
 const routes: Routes = [
   {
@@ -16,13 +17,13 @@ const routes: Routes = [
     component: MenuComponent,
     children: [
       {path: '', redirectTo: '/multtab', pathMatch: 'full'},
-      {path: 'groupz', component: GroupzComponent},
-      {path: 'multtab', component: MulttabComponent},
-      {path: 'ringz', component: RingzComponent},
-      {path: 'squareeq', component: SquareeqComponent},
-      {path: 'groupq', component: GroupqComponent},
-      {path: 'groupqm', component: GroupqmComponent},
-      {path: 'lineareq', component: LineareqComponent},
+      {path: 'groupz', component: GroupzComponent, canActivate: [AuthGuard]},
+      {path: 'multtab', component: MulttabComponent, canActivate: [AuthGuard]},
+      {path: 'ringz', component: RingzComponent, canActivate: [AuthGuard]},
+      {path: 'squareeq', component: SquareeqComponent, canActivate: [AuthGuard]},
+      {path: 'groupq', component: GroupqComponent, canActivate: [AuthGuard]},
+      {path: 'groupqm', component: GroupqmComponent, canActivate: [AuthGuard]},
+      {path: 'lineareq', component: LineareqComponent, canActivate: [AuthGuard]},
       {path: 'login', component: LoginComponent},
       {path: '**', redirectTo: '/multtab'}
     ]
