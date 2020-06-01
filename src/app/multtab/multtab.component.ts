@@ -5,6 +5,8 @@ import {ApiServices} from '../services/api.services';
 import {Subscription} from 'rxjs';
 import {AppFacade} from '../app.facade';
 import {first} from 'rxjs/operators';
+import {HeapMax} from '../lib/heap.lib';
+import {getRandom} from '../modules/math.module';
 
 @Component({
   selector: 'app-multtab',
@@ -22,6 +24,9 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   subs: Subscription;
   t: Visited = new Visited();
   currentTask: SimpleTask = new SimpleTask();
+  heap: HeapMax = new HeapMax();
+  lastTask = [0, 0];
+  isErrors = false;
 
   constructor(
     public timeTask: TimerTaskService,
@@ -47,6 +52,10 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe( (visited: Visited) => {
     this.t = visited;
     });
+
+    for (let i = 0; i < 10; i++) {
+      this.heap.insert({value: i, prior: 0, pos: 0});
+    }
   }
 
   ngAfterViewInit(): void {
@@ -60,12 +69,29 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setTask() {
-    this.api.getMultiplyTable()
+   /* this.api.getMultiplyTable()
       .pipe(first())
       .subscribe((task: SimpleTask) => {
         this.currentTask = task;
         this.appFacade.setProblemText(this.currentTask.problemText);
       });
+*/
+    let numArray = [2, 3, 4, 5, 6, 7, 8, 9];
+    let m1;
+    let m2;
+    if (!this.lastTask[0] && !this.lastTask[1]) {
+      m1 = numArray[getRandom(0, 7)];
+      m2 = numArray[getRandom(0, 7)];
+    } else {
+      numArray = numArray.filter( value => value !== this.lastTask[0] && value !== this.lastTask[1]);
+      m1 = numArray[getRandom(0, numArray.length - 1)];
+      m2 = numArray[getRandom(0, numArray.length - 1)];
+    }
+    this.lastTask = [m1, m2];
+    this.currentTask.problemText = `${m1} \\times ${m2}`;
+    this.currentTask.answer = m1 * m2;
+    this.appFacade.setProblemText(this.currentTask.problemText);
+
   }
 
   checkAns() {
