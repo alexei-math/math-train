@@ -83,9 +83,20 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
       m1 = numArray[getRandom(0, 7)];
       m2 = numArray[getRandom(0, 7)];
     } else {
-      numArray = numArray.filter( value => value !== this.lastTask[0] && value !== this.lastTask[1]);
-      m1 = numArray[getRandom(0, numArray.length - 1)];
-      m2 = numArray[getRandom(0, numArray.length - 1)];
+      if (this.heap.viewTop().prior) {
+        m1 = this.heap.viewTop().value;
+        console.log(this.heap.viewTop().value, this.heap.viewTop().prior);
+        m2 = numArray[getRandom(0, numArray.length - 1)];
+        if (getRandom(0, 1)) {
+          const t = m1;
+          m1 = m2;
+          m2 = t;
+        }
+      } else {
+        numArray = numArray.filter(value => value !== this.lastTask[0] && value !== this.lastTask[1]);
+        m1 = numArray[getRandom(0, numArray.length - 1)];
+        m2 = numArray[getRandom(0, numArray.length - 1)];
+      }
     }
     this.lastTask = [m1, m2];
     this.currentTask.problemText = `${m1} \\times ${m2}`;
@@ -99,11 +110,25 @@ export class MulttabComponent implements OnInit, AfterViewInit, OnDestroy {
     if (+this.ans === this.currentTask.answer){
       this.ansHints.res = 'Правильно!';
       this.scoreMultiData.solvedProblems += 1;
+      if (!this.isErrors) {
+        this.heap.decPriority(this.lastTask[0], 1);
+        if (this.lastTask[1] !== this.lastTask[0]) {
+          this.heap.decPriority(this.lastTask[1], 1);
+        }
+      }
+      this.isErrors = false;
       if (this.scoreMultiData.givenProblems < this.scoreMultiData.totalProblems - 1) {
         this.setTask();
       }
     } else {
       this.ansHints.res = 'Неправильно!';
+      this.isErrors = true;
+      this.heap.incPriority(this.lastTask[0], 1);
+      // console.log(this.heap.arr[this.lastTask[0]].value, this.heap.arr[this.lastTask[0]].prior);
+      if (this.lastTask[1] !== this.lastTask[0]) {
+        this.heap.incPriority(this.lastTask[1], 1);
+        // console.log(this.heap.arr[this.lastTask[1]].value, this.heap.arr[this.lastTask[1]].prior);
+      }
     }
 
     if (this.scoreMultiData.givenProblems >= this.scoreMultiData.totalProblems) {

@@ -18,7 +18,7 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: '/multtab', pathMatch: 'full'},
       {path: 'groupz', component: GroupzComponent, canActivate: [AuthGuard]},
-      {path: 'multtab', component: MulttabComponent, canActivate: [AuthGuard]},
+      {path: 'multtab', component: MulttabComponent},
       {path: 'ringz', component: RingzComponent, canActivate: [AuthGuard]},
       {path: 'squareeq', component: SquareeqComponent, canActivate: [AuthGuard]},
       {path: 'groupq', component: GroupqComponent, canActivate: [AuthGuard]},
